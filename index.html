@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<title>OffPage Atlas — Backlink & Guest Post Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Sora:wght@400;600;700&family=Noto+Naskh+Arabic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--on:#04130a;--bg:#0b1220;--side:#0d1526;--card:#121b30;--card2:#1a2440;--line:#263350;--txt:#e9eff9;--mut:#8b9bb8;--acc:#22c55e;--acc2:#16a34a;--accs:rgba(34,197,94,.12);--blue:#3b82f6;--blues:rgba(59,130,246,.14);--amb:#f59e0b;--ambs:rgba(245,158,11,.14);--red:#ef4444;--reds:rgba(239,68,68,.14);--pur:#a78bfa;--purs:rgba(167,139,250,.14);--sh:0 8px 24px rgba(0,0,0,.35)}
+[data-theme=light]{--on:#fff;--bg:#eef3f1;--side:#fff;--card:#fff;--card2:#f3f7f5;--line:#dbe5e1;--txt:#10201b;--mut:#5b7169;--acc:#15803d;--acc2:#166534;--accs:rgba(21,128,61,.1);--sh:0 6px 18px rgba(16,32,27,.08)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.5 Sora,'Noto Naskh Arabic',system-ui,'Segoe UI',Arial,sans-serif;display:flex;min-height:100vh}
+.mono,.num{font-family:'JetBrains Mono',ui-monospace,Consolas,monospace}
+aside{width:236px;flex:none;background:var(--side);border-right:1px solid var(--line);padding:18px 12px;position:sticky;top:0;height:100vh;overflow:auto;display:flex;flex-direction:column}
+.brand{display:flex;gap:10px;align-items:center;padding:4px 8px 16px}
+.brand i{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--acc),#0d9488);display:grid;place-items:center;font-style:normal;font-size:19px;color:var(--on)}
+.brand b{font-size:16px;letter-spacing:-.3px;display:block;line-height:1.1}.brand small{color:var(--mut);font-size:10.5px}
+.grp{font-size:10.5px;letter-spacing:1.2px;color:var(--mut);margin:16px 10px 6px;font-weight:700}
+.nav{display:flex;align-items:center;gap:10px;width:100%;background:none;border:1px solid transparent;color:var(--txt);opacity:.82;padding:9px 11px;border-radius:10px;font:600 13px Sora,'Noto Naskh Arabic',sans-serif;cursor:pointer;text-align:left}
+.nav:hover{background:var(--card2);opacity:1}.nav.on{background:var(--accs);border-color:var(--acc2);color:var(--acc);opacity:1}
+.nav em{font-style:normal;width:18px;text-align:center}.nav .cb{margin-left:auto;background:var(--acc);color:var(--on);border-radius:9px;font-size:10.5px;padding:0 7px;font-weight:700}
+.theme{margin-top:auto}
+main{flex:1;min-width:0;padding:26px 30px 40px;max-width:1280px;display:flex;flex-direction:column;min-height:100vh}
+h1{font-size:22px;margin:0 0 3px;letter-spacing:-.4px}.lead{color:var(--mut);margin:0 0 18px;font-size:13px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+.panel h2{font-size:14px;margin:0 0 4px}.panel .sub{color:var(--mut);font-size:12px;margin:0 0 12px}
+.banner{background:var(--accs);border:1px solid var(--acc2);color:var(--acc);border-radius:10px;padding:10px 14px;font-size:12.5px;font-weight:600;margin-bottom:16px}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-top:2px solid var(--c,var(--acc));border-radius:14px;padding:18px 12px;text-align:center;cursor:pointer;transition:transform .15s,border-color .15s}
+.tile:hover{transform:translateY(-2px);border-color:var(--c,var(--acc))}
+.tile .ic{width:40px;height:40px;border-radius:11px;margin:0 auto 10px;display:grid;place-items:center;font-size:18px;background:color-mix(in srgb,var(--c,var(--acc)) 16%,transparent)}
+.tile .n{font-family:'JetBrains Mono',monospace;font-size:27px;font-weight:700;color:var(--c,var(--acc));line-height:1.1}.tile .l{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:2px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bar{display:grid;grid-template-columns:130px 1fr 34px;gap:10px;align-items:center;margin:8px 0;font-size:12.5px;cursor:pointer}
+.bar .t{height:8px;border-radius:5px;background:var(--card2);overflow:hidden}.bar .t i{display:block;height:100%;background:linear-gradient(90deg,var(--acc2),var(--acc));border-radius:5px}
+.bar span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bar b{text-align:right;font-family:'JetBrains Mono',monospace}
+.fgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:12px}
+label{display:block;font-size:11px;color:var(--mut);margin:0 0 4px;font-weight:600}
+input,select,textarea{width:100%;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:9px 10px;font:13px Sora,'Noto Naskh Arabic',sans-serif}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+select option{background:var(--card);color:var(--txt)}
+textarea{min-height:110px;resize:vertical;font-size:12px}
+.search{font-size:15px;padding:13px 14px;border-radius:12px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0 0}
+.chip{border:1px solid var(--line);background:var(--card2);color:var(--mut);border-radius:20px;padding:5px 13px;font:600 12px Sora,'Noto Naskh Arabic',sans-serif;cursor:pointer}
+.chip:hover{color:var(--txt)}.chip.on{background:var(--acc);border-color:var(--acc);color:var(--on)}
+.btn{background:linear-gradient(180deg,var(--acc),var(--acc2));color:var(--on);border:0;border-radius:10px;padding:10px 16px;font:700 13px Sora,'Noto Naskh Arabic',sans-serif;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.28),0 8px 16px rgba(0,0,0,.22)}
+.btn:hover{filter:brightness(1.1)}.btn.g{background:transparent;border:1px solid var(--line);color:var(--txt)}.btn.g:hover{border-color:var(--acc);color:var(--acc)}
+.btn.r{background:var(--reds);color:var(--red)}.btn.s{padding:6px 11px;font-size:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin:12px 0 0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.site{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.site:hover{border-color:var(--acc2);box-shadow:var(--sh)}
+.site::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--bc,var(--acc))}
+.sh{display:flex;gap:10px;align-items:center}
+.fav{width:38px;height:38px;border-radius:10px;background:var(--card2);border:1px solid var(--line);display:grid;place-items:center;font-weight:700;color:var(--acc);flex:none;overflow:hidden}.fav img{width:22px;height:22px}
+.wn{font-weight:700;font-size:14.5px;word-break:break-all;line-height:1.25}
+.cc{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;background:var(--blues);color:var(--blue);border-radius:6px;padding:1px 6px;margin-right:5px}
+.meta{font-size:11.5px;color:var(--mut)}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:12px;background:var(--purs);color:var(--pur);margin:10px 0 0;width:fit-content}
+.mets{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:12px 0}
+.met{background:var(--card2);border-radius:9px;padding:8px 2px;text-align:center}.met b{display:block;font-family:'JetBrains Mono',monospace;font-size:15px}.met small{font-size:10px;color:var(--mut);font-weight:600}
+.pills{display:flex;flex-wrap:wrap;gap:6px}.pill{font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:12px;background:var(--card2);color:var(--mut)}
+.pill.ok{background:var(--accs);color:var(--acc)}.pill.bad{background:var(--reds);color:var(--red)}.pill.inf{background:var(--blues);color:var(--blue)}.pill.wa{background:var(--ambs);color:var(--amb)}
+.price{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;margin:12px 0 0}.price small{font-size:11px;color:var(--mut);font-family:Sora}
+.cp{font-size:11.5px;color:var(--mut)}.site a.sl{color:var(--blue);font-size:12px;font-weight:600;text-decoration:none;margin-top:6px}
+.site .btn{margin-top:12px;width:100%}.site .btn.in{background:var(--accs);color:var(--acc);border:1px solid var(--acc2)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--mut);font-size:11px;font-weight:700}.tw{overflow-x:auto}
+.sites-table{table-layout:fixed;width:100%;min-width:1060px}
+.sites-table th,.sites-table td{overflow:hidden;text-overflow:ellipsis;vertical-align:top}
+.sites-table td.wsite{white-space:normal;word-break:break-word}
+.st{font-size:11px;font-weight:700;padding:2px 10px;border-radius:12px;background:var(--ambs);color:var(--amb)}.st.Progress{background:var(--blues);color:var(--blue)}.st.Completed{background:var(--accs);color:var(--acc)}.st.Cancelled{background:var(--card2);color:var(--mut)}
+.crow{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}.f3{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tot{text-align:right;font-size:18px;font-weight:700;margin:14px 0}.tot span{color:var(--acc);font-family:'JetBrains Mono',monospace}
+.empty{text-align:center;color:var(--mut);padding:30px;grid-column:1/-1}
+.al{border-radius:10px;padding:10px 13px;font-size:12.5px;margin:10px 0;background:var(--blues);color:var(--blue)}.al.ok{background:var(--accs);color:var(--acc)}.al.w{background:var(--ambs);color:var(--amb)}
+code{background:var(--card2);padding:1px 6px;border-radius:5px;font-size:11px}
+details summary{cursor:pointer;color:var(--acc);font-weight:600;font-size:12px;margin-top:8px}
+#toast{position:fixed;bottom:22px;right:22px;background:var(--acc);color:var(--on);font-weight:700;padding:11px 18px;border-radius:10px;box-shadow:var(--sh);opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none;z-index:9}#toast.show{opacity:1;transform:none}
+[hidden]{display:none!important}
+svg.i{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em;flex:none}
+.nav em .i{width:18px;height:18px}.tile .ic .i{width:20px;height:20px}.brand i .i{width:21px;height:21px}
+.seg{display:inline-flex;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:3px;flex:none}
+.seg button{border:0;background:none;color:var(--mut);font:700 12px Sora,'Noto Naskh Arabic',sans-serif;padding:5px 11px;border-radius:7px;cursor:pointer}.seg button.on{background:var(--acc);color:var(--on)}
+.ratebox{border:1px solid var(--line);border-radius:10px;margin:8px 0;padding:8px 12px;background:var(--card2)}.ratebox summary{cursor:pointer;font-size:14px;padding:2px}.ratebox .tw{margin-top:8px}
+.svc{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.sv{display:flex;gap:12px;align-items:center;text-align:start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer;color:var(--txt);font:inherit;transition:transform .18s,border-color .18s,background .18s}
+.sv:hover{border-color:var(--acc);transform:translateY(-2px)}.sv.on{border-color:var(--acc);background:var(--accs)}
+.sv .ib{width:42px;height:42px;border-radius:11px;background:var(--accs);color:var(--acc);display:grid;place-items:center;font-size:20px;flex:none}
+.sv b{display:block;font-size:14px}.sv small{color:var(--mut);font-size:11.5px;display:block}.sv .n{margin-inline-start:auto;font:700 18px 'JetBrains Mono',monospace;color:var(--acc)}
+.facet{margin-top:14px}.fl{font-size:11.5px;font-weight:700;color:var(--mut);margin-bottom:6px}.facet .chips{margin:0}
+.chip i{font-style:normal;opacity:.65;margin-inline-start:4px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.chip .cc{margin-inline-end:6px}.chip.on .cc{background:rgba(0,0,0,.18);color:var(--on)}
+.site{transition:transform .18s,box-shadow .18s,border-color .18s}.site:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(0,0,0,.42);border-color:var(--acc2)}
+/* v3.38 */
+.paybox{margin-top:16px}
+.payrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 0;border-bottom:1px dashed var(--line)}
+.paylogo{font-weight:800;font-size:13px;color:#fff;padding:6px 14px;border-radius:9px;letter-spacing:.3px;box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.paylogo.jazz{background:linear-gradient(180deg,#e53935,#a30000)}
+.paylogo.ep{background:linear-gradient(180deg,#43a047,#1b5e20)}
+.ck{display:flex;align-items:center;gap:8px;margin-top:8px;font-weight:600;cursor:pointer}
+.ck input{width:16px;height:16px;accent-color:var(--acc)}
+.supedit{display:inline-flex;gap:6px;align-items:center}
+.supedit input{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:5px 8px;font:inherit;font-size:12.5px}
+#themeBtn{font-size:19px}
+@media(max-width:480px){.fgrid{grid-template-columns:1fr}.payrow{gap:8px}.top{gap:6px}.crow .f2{grid-template-columns:1fr}}
+.btn{transition:filter .15s,transform .08s,box-shadow .08s}.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}.btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.28),0 3px 8px rgba(0,0,0,.2)}.btn:hover{transform:translateY(-1px)}.btn:active{transform:scale(.98)}
+.btn.g,.btn.r{box-shadow:none}
+.chip{transition:border-color .15s,color .15s}
+
+.top{display:flex;align-items:center;gap:14px;margin:-8px 0 20px;padding-bottom:14px;border-bottom:1px solid var(--line);position:relative}
+#themeBtn{display:inline-flex;align-items:center;justify-content:center;color:var(--acc)}
+#themeBtn svg{width:20px;height:20px;transition:transform .45s ease,opacity .3s ease}
+#themeBtn .ic-sun{display:none}
+[data-theme="light"] #themeBtn .ic-sun{display:block}
+[data-theme="light"] #themeBtn .ic-moon{display:none}
+#themeBtn:active svg{transform:rotate(120deg) scale(.85)}
+.hqbadge{display:inline-block;padding:8px 20px;border-radius:999px;font-weight:700;font-size:14px;color:#fff;background:linear-gradient(135deg,#12b981,#0b7a55);box-shadow:0 4px 14px rgba(14,159,110,.35);letter-spacing:.2px}
+#topBtn{position:fixed;right:22px;bottom:22px;z-index:70;width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,var(--acc),#0b7a55);box-shadow:0 6px 18px rgba(0,0,0,.32);opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity .3s,transform .3s}
+#topBtn.show{opacity:1;pointer-events:auto;transform:none}
+#topBtn:hover{transform:translateY(-3px)}
+#topBtn svg{width:22px;height:22px}
+.loginwrap{display:flex;justify-content:center;padding:52px 16px}
+.logincard{width:100%;max-width:400px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:38px 34px;box-shadow:0 12px 40px rgba(0,0,0,.18);text-align:center}
+.loginlogo{font-size:42px;margin-bottom:8px}
+.logincard h1{font-size:26px;margin:0 0 4px;font-weight:500}
+.logincard .lead{margin:0 0 20px}
+.loginuser{display:flex;align-items:center;justify-content:center;gap:10px;border:1px solid var(--line);border-radius:999px;padding:6px 18px 6px 6px;margin:0 auto 20px;width:fit-content;max-width:100%;font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lav{width:32px;height:32px;flex:0 0 auto;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+.logincard label{display:block;text-align:left;font-size:13px;font-weight:600;margin-bottom:6px}
+.logincard input{width:100%;box-sizing:border-box}
+.loginbtn{width:100%;margin-top:18px;padding:12px;font-size:15px;border-radius:999px}
+.iconbtn{position:relative;background:var(--card);border:1px solid var(--line);border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer;flex:0 0 auto}
+.iconbtn .bdg{position:absolute;top:-5px;right:-5px;background:#e0245e;color:#fff;font-size:10px;font-weight:700;min-width:18px;height:18px;line-height:18px;border-radius:9px;text-align:center;padding:0 4px}
+.bellpop{position:absolute;top:54px;right:8px;width:340px;max-height:400px;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.20);z-index:60;padding:8px}
+.bellpop .brow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px;border-radius:10px;cursor:pointer}
+.bellpop .brow:hover{background:var(--bg)}
+.newtag{display:inline-block;background:#e0245e;color:#fff;font-size:10px;font-weight:700;border-radius:8px;padding:1px 7px;margin-left:6px}
+.top b{display:block;font-size:14px}.top small{color:var(--mut);font-size:11.5px}.top input{max-width:340px;margin-left:auto}
+.av{width:36px;height:36px;border-radius:10px;background:var(--acc);color:var(--on);display:grid;place-items:center;font-weight:700;flex:none}
+.hero{display:grid;grid-template-columns:1.6fr 1fr;gap:22px;background:radial-gradient(circle at 15% 0,rgba(34,197,94,.16),transparent 55%),var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:18px}
+.hero h1{font-size:30px;margin:8px 0}.hero h1 span,.heroHome h1 span,.login h1 span{color:var(--acc)}
+.hc{display:inline-block;border:1px solid var(--line);background:var(--card2);border-radius:20px;padding:4px 12px;font-size:11.5px;font-weight:600;margin:4px 6px 0 0}
+.badge{display:inline-block;background:var(--accs);color:var(--acc);border-radius:20px;padding:3px 12px;font-size:11.5px;font-weight:700}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start}.mini.m3{grid-template-columns:repeat(3,1fr);margin-top:6px}
+.mini div{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.mini b{font-family:'JetBrains Mono',monospace;font-size:21px;display:block;line-height:1.2}.mini small{color:var(--mut);font-size:11px;font-weight:600}
+.spark{width:100%;height:60px;display:block;margin:10px 0}
+.sec{font-size:15px;font-weight:700;margin:22px 0 10px}
+.vbox{margin-top:16px;border:1px dashed var(--acc2);background:var(--accs);border-radius:12px;padding:14px}.vbox h2{font-size:13px;margin:0 0 10px;color:var(--acc)}
+.login{display:grid;grid-template-columns:1.2fr 1fr;border:1px solid var(--line);border-radius:18px;overflow:hidden;max-width:880px;margin:24px auto;background:var(--card)}
+.lb{padding:36px;background:radial-gradient(circle at 20% 0,rgba(34,197,94,.2),transparent 60%)}.lb ul{color:var(--mut);padding-left:18px;line-height:2}
+.lf{padding:36px;border-left:1px solid var(--line);display:flex;flex-direction:column;justify-content:center}.lf .btn{margin-top:14px}
+.wabtn{display:inline-block;text-decoration:none}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}.fgrid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:820px){.svc{grid-template-columns:1fr}.hero,.login{grid-template-columns:1fr}.lf{border-left:0}.top input{display:none}body{flex-direction:column}aside{width:100%;height:auto;position:static;flex-direction:row;flex-wrap:wrap;gap:4px;padding:10px}.brand{padding:0 8px 0 0}.grp{display:none}.nav{width:auto}.theme{margin:0}main{padding:16px}.tiles{grid-template-columns:repeat(2,1fr)}.two,.grid,.f2{grid-template-columns:1fr}.fgrid,.f3{grid-template-columns:repeat(2,1fr)}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+footer{border-top:1px solid var(--line);padding:26px 16px;text-align:center;color:var(--mut);font-size:13px;margin-top:auto;background:var(--card);border-radius:14px}
+#app{padding-bottom:34px}
+.al.bad{background:#fde8e8;color:#c0392b}
+.lockwrap{min-height:82vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.lockcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:34px 30px;max-width:430px;width:100%;text-align:center;box-shadow:0 16px 40px rgba(0,0,0,.12)}
+.lockcard input{width:100%;margin-top:6px}
+body.locked aside{display:none}
+body.locked .top{display:none}
+body.locked footer{display:none}
+body.locked main{max-width:100%;margin:0}
+footer .flinks{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:4px 10px}
+footer a{color:var(--acc);cursor:pointer;text-decoration:none;font-weight:600}
+footer a:hover{text-decoration:underline}
+footer span{color:var(--line)}
+.tag.hq{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.45)}
+.sel{display:flex;align-items:center;gap:8px;margin:12px 0 4px;font-weight:600;cursor:pointer;font-size:13px}
+.sel input{width:18px;height:18px;accent-color:#22c55e;cursor:pointer}
+@media print{aside,header.top,footer,#toast{display:none}}
+
+/* v3: lock tabs, pricing, pro footer */
+.ltabs{display:flex;gap:8px;justify-content:center;margin:14px 0;flex-wrap:wrap}
+.ltab{margin-top:6px}
+.ltbtn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:14px;color:var(--ink)}
+.ltbtn.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:18px 0}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;position:relative}
+.plan.hot{border:2px solid var(--acc);box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.plan .ptag{position:absolute;top:-12px;right:14px;background:var(--acc);color:#fff;font-size:12px;padding:3px 10px;border-radius:20px}
+.plan h3{margin:0 0 4px;font-size:20px}
+.plan .pr{font-size:26px;font-weight:800;margin:8px 0}
+.plan ul{margin:10px 0;padding-left:18px;font-size:14px;color:var(--mut)}
+.plan ul li{margin:5px 0}
+.heroHome{background:linear-gradient(135deg,#0f5132,#198754);color:#fff;border-radius:20px;padding:34px 26px;text-align:center;margin-bottom:8px}
+.heroHome h1{margin:0 0 8px;font-size:30px}
+.heroHome p{opacity:.92;margin:6px 0}
+.fcols{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:28px;max-width:1150px;margin:0 auto;padding:38px 24px 16px;text-align:left}
+.fcols h4{margin:0 0 14px;font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--mut);font-weight:700}
+.fcols a{display:block;color:var(--tx);font-size:14px;margin:9px 0;cursor:pointer;text-decoration:none}
+.fcols a:hover{color:var(--acc)}
+.flogo{display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:26px}
+.flogo b{font-size:19px;display:block;line-height:1.2}
+.flogo small{color:var(--mut);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;display:block;margin-top:2px}
+.fsocial{display:flex;gap:10px;margin-top:16px}
+.fsocial a{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0;border:1px solid var(--line);color:var(--mut);background:transparent;transition:.2s}
+.fsocial a svg{display:block}
+.fsocial a:hover{color:var(--acc);border-color:var(--acc);transform:translateY(-2px)}
+.fbottom{border-top:1px solid var(--line);margin-top:16px;padding:16px 24px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;max-width:1150px;margin-left:auto;margin-right:auto;font-size:13px;color:var(--mut);align-items:center}
+@media(max-width:700px){.fcols{grid-template-columns:1fr 1fr}}
+
+/* ===== v3.34 Professional Polish ===== */
+:root{--sh-sm:0 1px 2px rgba(0,0,0,.25);--sh-md:0 4px 12px rgba(0,0,0,.3);--sh-lg:0 8px 24px rgba(0,0,0,.35);--r-sm:8px;--r-md:12px;--r-lg:16px;--tr:all .18s cubic-bezier(.4,0,.2,1)}
+.card{content-visibility:auto;contain-intrinsic-size:auto 180px;border-radius:var(--r-md);box-shadow:var(--sh-sm);transition:var(--tr);border:1px solid var(--line)}
+.card:hover{transform:translateY(-2px);box-shadow:var(--sh-md);border-color:var(--acc)}
+.btn{border-radius:var(--r-sm);font-weight:600;letter-spacing:.01em;transition:var(--tr);box-shadow:var(--sh-sm)}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--sh-md)}
+.btn:active{transform:translateY(0)}
+.btn.g{background:linear-gradient(135deg,var(--acc),var(--acc2));border:none;color:#fff}
+input,select,textarea{border-radius:var(--r-sm);transition:var(--tr)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--accs)}
+.panel{border-radius:var(--r-lg);box-shadow:var(--sh-sm)}
+.hero h1{letter-spacing:-.02em}
+.badge{border-radius:20px;padding:4px 12px;font-size:.78em;font-weight:600}
+.chip{border-radius:20px;transition:var(--tr)}
+.chip:hover{transform:scale(1.03)}
+table{border-radius:var(--r-md);overflow:hidden}
+.toast{border-radius:var(--r-md);box-shadow:var(--sh-lg);animation:slideUp .25s cubic-bezier(.4,0,.2,1)}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.skel{background:linear-gradient(90deg,var(--card) 25%,var(--card2) 50%,var(--card) 75%);background-size:200% 100%;animation:shimmer 1.2s infinite;border-radius:var(--r-sm)}
+@keyframes shimmer{to{background-position:-200% 0}}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:5px}
+::-webkit-scrollbar-thumb:hover{background:var(--mut)}
+</style>
+<style>
+.sheet{border-collapse:separate;border-spacing:0;min-width:100%;font-size:13px}
+.sheet th{position:sticky;top:0;background:var(--card);z-index:2;text-align:left;padding:6px 8px;border-bottom:2px solid var(--line);white-space:nowrap;font-size:12px;color:var(--mut)}
+.sheet td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:5px 8px;min-width:80px;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:cell;background:var(--card)}
+.sheet td[data-k="website"]{position:sticky;left:0;z-index:1;font-weight:600;min-width:180px;background:var(--bg,#fff)}
+.sheet td.shc:focus{outline:2px solid var(--acc);outline-offset:-2px}
+.sheet td input{width:100%;min-width:70px;border:none;background:transparent;color:inherit;font:inherit;padding:0;margin:0;outline:none}
+.sheet tr.newrow td{border-top:2px dashed var(--line);background:transparent}
+</style>
+</head>
+<body>
+<aside>
+  <div class="brand"><i>🧭</i><div><b>OffPage Atlas</b><small>Backlink marketplace · <b style="color:var(--acc)">v3</b></small></div></div>
+  <div class="grp">SHOP</div>
+  <button class="nav" data-v="market"><em>🏪</em>Marketplace</button>
+  <button class="nav" data-v="cart"><em>🛒</em>Cart<span class="cb" id="cartN">0</span></button>
+  <div id="adm" hidden><div class="grp">ADMIN</div>
+  <button class="nav" data-v="dash"><em>📊</em>Dashboard</button>
+  <button class="nav" data-v="orders"><em>📦</em>Orders<span class="cb" id="ordN">0</span></button>
+  <button class="nav" data-v="sites"><em>🌐</em>Websites</button>
+  <button class="nav" data-v="vend" id="navSup"><em>🤝</em>Suppliers</button>
+  <button class="nav" data-v="add"><em>＋</em>Add site</button>
+  <button class="nav" data-v="upload" id="navUp"><em>📤</em>Bulk upload</button>
+    <button class="nav" data-v="cats"><em>🏷</em>Categories</button>
+  <button class="nav" data-v="trash"><em>🗑</em>Trash<span class="cb" id="trashN" hidden>0</span></button>
+  <button class="nav" data-v="set"><em>⚙</em>Settings</button>
+  <button class="nav" data-v="logout"><em>🚪</em>Logout</button>
+</div>
+  </aside>
+<main><header class="top"><div><b>OffPage Atlas</b><small id="dt"></small></div><input id="gs" placeholder="Search sites, niche, country… (Enter)"><div class="seg" id="cursg"><button data-c="PKR">PKR</button><button data-c="USD">USD</button></div><div class="seg" id="langsg"><button data-l="en">EN</button><button data-l="ur">اردو</button></div><button class="iconbtn" id="themeBtn" aria-label="Day / night"><svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3L19 19M19 5l-1.7 1.7M6.7 17.3L5 19"/></svg><svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg></button><button class="iconbtn" id="bellBtn" onclick="toggleBell(event)" hidden aria-label="Order notifications">🔔<span class="bdg" id="bellN" hidden></span></button><div class="bellpop" id="bellPop" hidden></div><span class="av" id="av">G</span></header><div id="app"></div>
+<footer id="foot"></footer></main>
+<div id="toast"></div><button id="topBtn" aria-label="Back to top" title="Ooper jao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+
+<script>
+/* ---------- storage & helpers ---------- */
+
+/* ---------- v3.34: IndexedDB for large data (GBs, not 5MB localStorage limit) ---------- */
+const IDB=(()=>{
+  let db=null;
+  const ready=new Promise(res=>{
+    try{
+      const r=indexedDB.open("offpage-atlas",1);
+      r.onupgradeneeded=e=>{try{e.target.result.createObjectStore("kv")}catch(_){}};
+      r.onsuccess=e=>{db=e.target.result;res(true)};
+      r.onerror=()=>res(false);
+    }catch(_){res(false)}
+  });
+  const tx=(mode,fn)=>new Promise(res=>{
+    if(!db)return res(null);
+    try{
+      const t=db.transaction("kv",mode),s=t.objectStore("kv"),rq=fn(s);
+      rq.onsuccess=e=>res(e.target.result);
+      rq.onerror=()=>res(null);
+    }catch(_){res(null)}
+  });
+  return{ready,get:k=>tx("readonly",s=>s.get(k)),set:(k,v)=>tx("readwrite",s=>s.put(v,k))};
+})();
+let MEM_SITES=null,MEM_SITES_LOADED=false;
+const DB={get(k,f){if(k==="sites"&&MEM_SITES_LOADED)return MEM_SITES==null?f:MEM_SITES;try{const v=JSON.parse(localStorage.getItem("lb_"+k));return v==null?f:v}catch(e){return f}},set(k,v){if(k==="sites"){MEM_SITES=v;MEM_SITES_LOADED=true;try{IDB.set("sites",v)}catch(_){}return}try{localStorage.setItem("lb_"+k,JSON.stringify(v))}catch(e){}}};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const uid=()=>Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36);
+const fmt=n=>(+n||0).toLocaleString();
+function toast(m){const t=$("#toast");t.textContent=tr_(m);t.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("show"),2200)}
+let lang=DB.get("lang","en"),cur=DB.get("cur","PKR");
+const rate=()=>+(DB.get("settings",{}).rate)||280;
+const r2=v=>Math.round(v*100)/100;
+/* PKR price likhne par USD auto-fill (Settings wala dollar rate) */
+function autoUSD(x,oldP){
+  const r=rate();if(!x||!+x.price||!r)return;
+  const au=p=>r2(p/r);
+  if(!x.priceUSD||(oldP!=null&&oldP!==""&&+x.priceUSD===au(+oldP)))x.priceUSD=au(+x.price);
+}
+/* ghalti se PKR me likhe $ rates theek karo */
+function fixUSDRates(){
+  const r=rate(),all=DB.get("sites",[]),todo=[];
+  all.forEach(x=>["guestPrice","liPrice"].forEach(k=>{const v=+x[k];if(v>=1000)todo.push([x,k,v])}));
+  if(!todo.length)return toast("Sab $ rates theek hain \u2705");
+  if(!confirm(todo.length+" rates $1000+ hain \u2014 lagta hai ye PKR me likhe hain. Inhe $ me convert kar dun? (\u00F7 "+r+")"))return;
+  todo.forEach(a=>{a[0][a[1]]=r2(a[2]/r)});
+  DB.set("sites",all);if(state.route==="vend")vVend();toast(todo.length+" rates $ me convert \u2705");
+}
+const usd=p=>"$"+(p/rate()).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const money=p=>cur==="USD"?usd(p):fmt(p)+" PKR",money2=p=>cur==="USD"?fmt(p)+" PKR":usd(p);
+function tr_(x){return lang==="ur"&&TR[x]||x}
+const tnum=v=>{v=String(v||"").toLowerCase().replace(/,/g,"");const n=parseFloat(v);if(isNaN(n))return 0;return v.includes("m")?n*1e6:v.includes("k")?n*1e3:n};
+
+/* ---------- countries ---------- */
+const TLD={pk:"Pakistan",uk:"UK",us:"USA",jp:"Japan",au:"Australia",ca:"Canada",de:"Germany",fr:"France",in:"India",ae:"UAE",sa:"Saudi Arabia",nz:"New Zealand",sg:"Singapore",my:"Malaysia",it:"Italy",es:"Spain",nl:"Netherlands",br:"Brazil",za:"South Africa",ng:"Nigeria",bd:"Bangladesh",ph:"Philippines",id:"Indonesia",tr:"Turkey",ru:"Russia",cn:"China",kr:"South Korea",ie:"Ireland",se:"Sweden",no:"Norway",dk:"Denmark",fi:"Finland",ch:"Switzerland",at:"Austria",be:"Belgium",mx:"Mexico",eg:"Egypt",qa:"Qatar",kw:"Kuwait",lk:"Sri Lanka",pt:"Portugal",gr:"Greece",pl:"Poland",cz:"Czechia",hu:"Hungary",ro:"Romania",ua:"Ukraine",il:"Israel",th:"Thailand",vn:"Vietnam",tw:"Taiwan",hk:"Hong Kong",ar:"Argentina",cl:"Chile",pe:"Peru",uy:"Uruguay",py:"Paraguay",bo:"Bolivia",ec:"Ecuador",ve:"Venezuela",cr:"Costa Rica",pa:"Panama",do:"Dominican Republic",gt:"Guatemala",hn:"Honduras",ni:"Nicaragua",sv:"El Salvador",ke:"Kenya",gh:"Ghana",et:"Ethiopia",tz:"Tanzania",ug:"Uganda",rw:"Rwanda",cm:"Cameroon",ci:"Ivory Coast",sn:"Senegal",ml:"Mali",bf:"Burkina Faso",ne:"Niger",td:"Chad",sd:"Sudan",ly:"Libya",tn:"Tunisia",dz:"Algeria",ma:"Morocco",mr:"Mauritania",so:"Somalia",dj:"Djibouti",er:"Eritrea",ss:"South Sudan",cf:"Central African Republic",cg:"Congo",cd:"DR Congo",ao:"Angola",mz:"Mozambique",zw:"Zimbabwe",bw:"Botswana",na:"Namibia",sz:"Eswatini",ls:"Lesotho",mg:"Madagascar",mu:"Mauritius",sc:"Seychelles",cv:"Cape Verde",st:"Sao Tome",gw:"Guinea-Bissau",gm:"Gambia",sl:"Sierra Leone",lr:"Liberia",tg:"Togo",bj:"Benin",is:"Iceland",lu:"Luxembourg",mc:"Monaco",mt:"Malta",cy:"Cyprus",ee:"Estonia",lv:"Latvia",lt:"Lithuania",si:"Slovenia",sk:"Slovakia",hr:"Croatia",ba:"Bosnia",rs:"Serbia",mk:"North Macedonia",al:"Albania",md:"Moldova",by:"Belarus",ge:"Georgia",am:"Armenia",az:"Azerbaijan",kz:"Kazakhstan",uz:"Uzbekistan",tm:"Turkmenistan",kg:"Kyrgyzstan",tj:"Tajikistan",mn:"Mongolia",np:"Nepal",bt:"Bhutan",mv:"Maldives",af:"Afghanistan",iq:"Iraq",ir:"Iran",sy:"Syria",jo:"Jordan",lb:"Lebanon",ye:"Yemen",om:"Oman",bh:"Bahrain",ps:"Palestine",kh:"Cambodia",la:"Laos",mm:"Myanmar",bn:"Brunei",tl:"Timor",pg:"Papua New Guinea",fj:"Fiji",sb:"Solomon Islands",vu:"Vanuatu",nc:"New Caledonia",pf:"French Polynesia",ck:"Cook Islands",ws:"Samoa",to:"Tonga",jm:"Jamaica",tt:"Trinidad",bb:"Barbados",bs:"Bahamas",ky:"Cayman Islands",bm:"Bermuda",pr:"Puerto Rico",cu:"Cuba",mq:"Martinique",gp:"Guadeloupe",gf:"French Guiana",sr:"Suriname",gy:"Guyana"};
+/* generic TLDs (com/org/net/io/ai...) ka koi country nahi — blank */
+const GTLD=new Set("com org net info biz xyz site online store cloud app dev tech blog news media press link club fun vip top pro shop market deals agency digital studio design software solutions services network systems company business marketing email guru ninja expert world global live chat forum wiki art one ing io ai co me tv cc mobi name tel travel aero jobs museum int gov edu mil arpa website space xyz mom dad lol rest nfo pw".split(" "));
+function detectCountry(w){const p=w.toLowerCase().split("."),t=p[p.length-1];if(GTLD.has(t))return "";return TLD[t]||""}
+const NICHE_KW=[["Health","health,medical,clinic,hospital,dental,pharma,fitness,wellness,nutrition,doctor,therapy,supplement"],["Casino","casino,poker,gambling,betting,sportsbook,lottery"],["Pet","pet,dog,cat,puppy,kitten,animal,veterinary"],["Tech","tech,software,gadget,saas,hosting"],["Finance","finance,forex,crypto,trading,invest,loan,insurance"],["Travel","travel,hotel,tourism,flight"],["Food","food,recipe,restaurant,cooking"],["Fashion","fashion,beauty"],["Sports","sport,football,soccer,cricket"],["Education","edu,education,university,college,school"],["News","news"],["Business","business,marketing,startup,agency"],["Real Estate","realestate,realty,property"],["Automotive","auto,moto"],["Home","home,decor,interior"]];
+function detectNiche(web,tags){const t=((web||"")+" "+(tags||"")).toLowerCase();for(const[n,kw]of NICHE_KW){if(kw.split(",").some(k=>t.indexOf(k)>-1))return n}return ""}
+const BL_KW=[[".edu Backlinks",".edu"],["Forum Backlinks","forum"],["Profile Backlinks","profile"],["Directory Backlinks","directory"],["Image Backlinks","image"],["Comment Backlinks","comment"],["Social Bookmarking","bookmark"],["Web 2.0","web 2.0,web2"],["QnA Backlinks","qna"],["Nofollow Links","nofollow"]];
+function detectBacklinkType(web,tags){const t=((web||"")+" "+(tags||"")).toLowerCase();for(const[n,kw]of BL_KW){if(kw.split(",").some(k=>t.indexOf(k)>-1))return n}return "Backlinks"}
+const CODE={};Object.entries(TLD).forEach(([k,v])=>CODE[v]=k.toUpperCase());CODE["UK"]="UK";CODE["USA"]="US";
+const COUNTRIES=Object.values(TLD).sort();
+const cc=c=>CODE[c]||"WW";
+
+/* ---------- seed ---------- */
+const SEED_VER=2;
+const BAKED_CATS=["General","Automotive","Car Accessories","News / Newspaper","Health","Technology","Business","Finance","Lifestyle","Education","Real Estate","Image Submission","Forum Backlinks","Profile Creation","Directory Submission","Web 2.0","Social Bookmarking","Nofollow Links","+90 DR Backlinks","QnA Backlinks",".edu Backlinks"];
+const BAKED_SITES=[];
+const LIVE_SHEET_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vQJ0MENQuyp66kiAvNqVGsfq1BZ6Iu_b_NwUGbBE0f8LQgMhAUo7SayQ8x_GIlQgtQzWxvXUhIygXS-/pub?gid=130316417&single=true&output=csv";
+function seed(){
+  const sites=DB.get("sites",[]);
+  if(sites.some(x=>!x.sample&&!x.seedv))return;
+  if(String(localStorage.getItem("lb_seedver")||"")===String(SEED_VER))return;
+  DB.set("sites",BAKED_SITES.map(x=>Object.assign({seedv:SEED_VER},x)));
+  DB.set("categories",BAKED_CATS.slice());
+  if(!localStorage.getItem("lb_seeded")){DB.set("settings",Object.assign({pin:"1234",whatsapp:"923026129000",rate:280},DB.get("settings",{})));DB.set("orders",[])}
+  localStorage.setItem("lb_seeded","1");localStorage.setItem("lb_seedver",String(SEED_VER));
+}
+seed();{const s=DB.get("sites",[]);let ch=false;s.forEach(x=>{if(!x.country){x.country=detectCountry(x.website);ch=true}if(x.spam===undefined){x.spam="";ch=true}if(x.vendor===undefined){x.vendor="";x.vendorWA="";x.cost="";ch=true}if(x.payAdvance===undefined){x.payAdvance="";x.guestPrice="";x.liPrice="";ch=true}if(!x.service){x.service=/forum|image|profile|directory|bookmark|citation|comment|web ?2|backlink/i.test(x.category)?"Backlink":"Guest Post";ch=true}});if(ch)DB.set("sites",s)}
+/* ---------- state ---------- */
+const F0={q:"",service:"All",cat:"",country:"",da:"",dr:"",spam:"",traf:"",lt:"All",idx:"All",sort:"dr"};
+const state={v:"market",f:{...F0},cart:DB.get("cart",[]),edit:null,sel:[],sdel:[],trashSel:[],admin:false,supEdit:null,shown:48,shsel:[]};
+const ADMIN=["dash","sites","add","upload","vend","cats","trash","orders","set"];
+function unlockAdmin(){state.admin=true;const a=$("#adm");if(a)a.hidden=false;syncTrashN()}
+function lockAdmin(){state.admin=false;const a=$("#adm");if(a)a.hidden=true;if(ADMIN.includes(state.v))state.v="market"}
+/* ---------- v3.21: admin login (email + password, ek baar sign in) ---------- */
+async function sha(s){try{if(window.crypto&&crypto.subtle){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("oa::"+s));return["s256",[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")]} }catch(e){}let h=5381;for(let i=0;i<s.length;i++)h=(((h<<5)+h+s.charCodeAt(i))>>>0);return["dj","dj"+h.toString(16)]}
+function admAuth(){try{const a=JSON.parse(localStorage.getItem("oa_admin")||"null");if(a&&a.email&&("ph" in a))return a}catch(e){}return{email:"memyselfbasit@gmail.com",alg:null,ph:null}}
+async function admSetAuth(email,pw){const r=await sha(pw);const a={email:email,alg:r[0],ph:r[1]};try{localStorage.setItem("oa_admin",JSON.stringify(a))}catch(e){}return a}
+function trySess(){try{return sessionStorage.getItem("oa_sess")==="1"}catch(e){return false}}
+function adminLogout(){try{sessionStorage.removeItem("oa_sess")}catch(e){}lockAdmin();go("market");toast("Logout ho gaya \uD83D\uDC4B")}
+async function doLogin(){const pw=(($("#liPass")||{}).value||"");if(!pw)return toast("Password likho");const a=admAuth();let ok=false;if(!a.ph){if(pw==="129000"){await admSetAuth(a.email,pw);ok=true}}else{const r=await sha(pw);ok=(r[0]===a.alg&&r[1]===a.ph)}if(!ok)return toast("❌ Ghalat password");try{sessionStorage.setItem("oa_sess","1")}catch(e){}unlockAdmin();go("dash");toast("Welcome back ✅")}
+async function admSave(){const em=(($("#aEmail")||{}).value||"").trim().toLowerCase(),p1=(($("#aPass1")||{}).value||""),p2=(($("#aPass2")||{}).value||"");if(!em||em.indexOf("@")<0)return toast("Sahi email likho");const cur=admAuth();if(p1||p2){if(p1!==p2)return toast("Password match nahi ho raha");if(p1.length<6)return toast("Password kam se kam 6 characters ho");await admSetAuth(em,p1)}else{try{localStorage.setItem("oa_admin",JSON.stringify({email:em,alg:cur.alg,ph:cur.ph}))}catch(e){}}vSet();toast("Admin login save ✅")}
+function vLogin(){
+  if(state.admin){go("dash");return}
+  const a=admAuth(),em=esc(a.email),ch=esc(a.email.trim()[0].toUpperCase());
+  $("#app").innerHTML=`<div class="loginwrap"><div class="logincard"><div class="loginlogo">🧭</div><h1>Sign in</h1><p class="lead">to continue to <b>OffPage Atlas Admin</b></p><div class="loginuser"><span class="lav">${ch}</span><span>${em}</span></div><label>Password</label><input id="liPass" type="password" placeholder="Enter your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"><button class="btn loginbtn" onclick="doLogin()">Sign in</button></div></div>`;
+  setTimeout(()=>{const p=$("#liPass");if(p)p.focus()},60);
+}
+function vHome(){
+  const sites=DB.get("sites",[]),cats=DB.get("categories",[]),cos=new Set(sites.map(s=>s.country||"—")).size;
+  const feat=(e,t,d)=>`<div class="panel" style="margin:0"><div style="font-size:30px">${e}</div><h2 style="margin:8px 0 4px">${t}</h2><p class="meta" style="margin:0">${d}</p></div>`;
+  const step=(n,t,d)=>`<div><b style="font-size:26px">${n}</b><div style="font-weight:700;margin:6px 0 2px">${t}</div><small class="meta">${d}</small></div>`;
+  $("#app").innerHTML=`
+  <div class="heroHome"><span class="badge">🧭 OffPage Atlas</span>
+    <h1>Guest Posts & <span>High-Quality Backlinks</span></h1>
+    <p>Pakistan ka apna backlink marketplace — DA, DR, spam score aur traffic dekh kar best sites choose karo, order place karo.</p>
+    <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn" onclick="go('market')">🏪 Marketplace kholo</button>
+    </div></div>
+  <div class="mini m3"><div><b>${sites.length}</b><small>Websites</small></div><div><b>${cats.length}</b><small>Categories</small></div><div><b>${cos}</b><small>Countries</small></div></div>
+  <h2 class="sec">✨ Features</h2>
+  <div class="grid">
+    ${feat("📝","Guest Posts","Real websites par article + backlink — price ke saath, seedha cart me.")}
+    ${feat("🔗","Backlinks","Forum, image, profile, directory links — quote par deal.")}
+    ${feat("📤","Bulk Upload","Excel se hazaaron sites ek saath — supplier auto-assign.")}
+    ${feat("🤝","Supplier Diary","Har seller ka naam, WhatsApp aur rates — ek jagah.")}
+    ${feat("📦","Orders & Alerts","Naye order par 🔔 notification — WhatsApp par confirm.")}
+    ${feat("📊","Dashboard","Orders, sites aur suppliers — sab ek nazar me.")}
+  </div>
+  <h2 class="sec">🚀 Kaise kaam karta hai</h2>
+  <div class="mini m3">${step("1","Sites add karo","Apni websites list me add karo ya bulk upload karo.")}${step("2","Sites choose karo","DA / DR / spam / country filters lagao.")}${step("3","Order place karo","Cart se order — confirmation WhatsApp par.")}</div>
+  <div class="panel" style="margin-top:22px;text-align:center;background:linear-gradient(135deg,#0f5132,#198754);border:0"><h2 style="color:#fff;font-size:20px">Shuru karo</h2><p style="color:rgba(255,255,255,.85)">Apni sites add karo aur orders lena shuru karo.</p><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px"><button class="btn" style="background:#fff;color:#0f5132" onclick="go('market')">🏪 Marketplace kholo</button></div></div>`;
+}
+
+function syncNav(){const n=DB.get("orders",[]).filter(o=>o.status==="New").length,b=$("#ordN");b.textContent=n;b.hidden=!n;$("#av").textContent=state.admin?"A":"🧭";const bb=$("#bellBtn");if(bb)bb.hidden=!state.admin;updBell();}
+const FOOT0={about:"OffPage Atlas — guest posts aur high-quality backlinks ka marketplace. Behtreen sites, munasib rates, tez delivery.",logo:"🧭",facebook:"https://web.facebook.com/abdul.basit.murass/",whatsapp:"923026129000",messenger:"https://m.me/abdul.basit.murass/",tiktok:"",youtube:"",website:"",instagram:""};
+function footSet(){return Object.assign({},FOOT0,DB.get("settings",{}).footer||{})}
+function renderFoot(){const f=footSet(),wa=String(f.whatsapp||"").replace(/\D/g,""),IC={fb:'<svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>',
+wa:'<svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>',
+tt:'<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>',
+yt:'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>',
+wb:'<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.9 5.7 3.9 9s-1.4 6.4-3.9 9c-2.5-2.6-3.9-5.7-3.9-9S9.5 5.6 12 3z"/></svg>',
+ms:'<svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 0C5.373 0 0 4.975 0 11.111c0 3.497 1.745 6.616 4.472 8.652V24l4.086-2.242c1.09.301 2.246.464 3.442.464 6.627 0 12-4.974 12-11.111C24 4.975 18.627 0 12 0zm1.193 14.963l-3.056-3.26-5.963 3.26L10.732 8l3.131 3.259L19.752 8l-6.559 6.963z"/></svg>',ig:'<svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>'},
+soc=[[IC.fb,"#1877F2","Facebook",f.facebook],[IC.wa,"#25D366","WhatsApp",wa?"https://wa.me/"+wa:""],[IC.tt,"#010101","TikTok",f.tiktok],[IC.yt,"#FF0000","YouTube",f.youtube],[IC.ig,"#E1306C","Instagram",f.instagram],[IC.wb,"#0d7a4f","Website",f.website],[IC.ms,"#0084FF","Messenger",f.messenger]].filter(x=>x[3]);
+const aboutTxt=lang==="ur"?f.about:(f.about===FOOT0.about?"OffPage Atlas — a marketplace for guest posts and high-quality backlinks. Top sites, fair rates, fast delivery.":f.about);$("#foot").innerHTML=`<div class="fcols"><div><div class="flogo"><span>${esc(f.logo)}</span><div><b>OffPage Atlas</b><small>Backlink marketplace</small></div></div><p class="meta" style="font-size:13.5px;line-height:1.65">${esc(aboutTxt)}</p><div class="fsocial">${soc.map(s=>`<a href="${esc(s[3])}" target="_blank" rel="noopener" title="${esc(s[2])}">${s[0]}</a>`).join("")}</div></div><div><h4>Marketplace</h4><a onclick="go('market')">All sites</a><a onclick="viewSvc('Guest Post')">Guest Posts</a><a onclick="viewSvc('Backlink')">Backlinks</a><a onclick="go('cart')">Cart</a></div><div><h4>Support</h4><a onclick="go('contact')">Contact Us</a><a onclick="go('privacy')">Privacy Policy</a><a onclick="go('dmca')">DMCA</a><a onclick="go('terms')">Terms & Conditions</a></div><div><h4>Contact</h4>${wa?`<a href="https://wa.me/${wa}" target="_blank" rel="noopener">📩 WhatsApp: +${esc(wa)}</a>`:""}<a onclick="go('contact')">✉️ Contact form</a></div></div><div class="fbottom"><span>© ${new Date().getFullYear()} <b>OffPage Atlas</b></span><span class="meta">High Quality Backlinks & Guest Post Service · v3.38</span></div>`}
+function updBell(){
+
+  if(!DB.get("bellInit",false)){const o=DB.get("orders",[]);o.forEach(x=>{if(x.read===undefined)x.read=true});DB.set("orders",o);DB.set("bellInit",true)}
+  const n=DB.get("orders",[]).filter(o=>!o.read).length,b=$("#bellN");if(b){b.textContent=n;b.hidden=!n}
+}
+function toggleBell(e){
+  e.stopPropagation();const p=$("#bellPop");if(!p)return;
+  if(!p.hidden){p.hidden=true;return}
+  const o=DB.get("orders",[]).slice(0,8);
+  p.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px"><b>🔔 Order notifications</b><button class="btn g s" onclick="event.stopPropagation();markBellRead()">Mark all read</button></div>`+
+  (o.length?o.map(x=>`<div class="brow" onclick="document.querySelector('#bellPop').hidden=true;go('orders')"><div><b class="mono">${esc(x.id)}</b> <span class="st ${x.status}">${esc(x.status)}</span>${x.read?"":`<span class="newtag">NEW</span>`}<br><small class="meta">${esc(x.date)} · ${esc(x.name)} · ${x.items.length} site(s) · ${+x.total>0?fmt(x.total)+" PKR":"Price on request"}</small></div><span>›</span></div>`).join(""):`<div class="empty">Abhi koi order nahi aaya.</div>`);
+  p.hidden=false;
+}
+function markBellRead(){const o=DB.get("orders",[]);o.forEach(x=>x.read=true);DB.set("orders",o);updBell();const p=$("#bellPop");if(p)p.hidden=true}
+document.addEventListener("click",e=>{const p=$("#bellPop");if(p&&!p.hidden&&!e.target.closest("#bellPop")&&!e.target.closest("#bellBtn"))p.hidden=true});
+$("#dt").textContent=new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+$("#gs").onkeydown=e=>{if(e.key==="Enter"){state.f={...F0,q:e.target.value};e.target.value="";go("market")}};
+function saveCart(){DB.set("cart",state.cart);$("#cartN").textContent=state.cart.length}
+function go(v){if(v==="logout"){adminLogout();return}if(ADMIN.includes(v)&&!state.admin)v="market";state.v=v;document.querySelectorAll(".nav[data-v]").forEach(b=>b.classList.toggle("on",b.dataset.v===v));render();scrollTo({top:0})}
+document.querySelectorAll(".nav[data-v]").forEach(b=>b.onclick=()=>go(b.dataset.v));
+$("#themeBtn").onclick=()=>{const h=document.documentElement;h.dataset.theme=h.dataset.theme==="dark"?"light":"dark";DB.set("theme",h.dataset.theme)};
+if(DB.get("theme","dark")==="light")$("#themeBtn").click();
+
+function render(){
+
+  const app=$("#app");syncNav();const adm=$("#adm");if(adm)adm.hidden=!state.admin;app.dir=(lang==="ur"&&(state.v==="market"||state.v==="cart"))?"rtl":"ltr";
+  document.body.classList.remove("locked");  renderFoot();({market:vMarket,cart:vCart,dash:vDash,sites:vSites,add:vAdd,upload:vUpload,cats:vCats,trash:vTrash,orders:vOrders,vend:vVend,set:vSet,login:vLogin,privacy:vPrivacy,dmca:vDmca,contact:vContact,terms:vTerms})[state.v]();
+}
+
+/* ---------- marketplace ---------- */
+const num=v=>{v=String(v==null?"":v).trim();return v===""?null:tnum(v)};
+function filt(o={}){
+  const f=state.f,k=o.loose?.7:1;let a=DB.get("sites",[]);
+  if(f.service!=="All")a=a.filter(s=>s.service===f.service);
+  const cq=f.cat.trim().toLowerCase(),oq=f.country.trim().toLowerCase();
+  if(!o.skipCat&&cq)a=a.filter(s=>s.category.toLowerCase().includes(cq));
+  if(!o.skipCountry&&oq)a=a.filter(s=>{const c=s.country||"";return c.toLowerCase().includes(oq)||cc(c).toLowerCase()===oq});
+  if(f.q.trim()){const q=f.q.toLowerCase().trim();a=a.filter(s=>[s.website,s.category,s.tags,s.keywords,s.remarks,s.country,s.service].map(x=>String(x==null?"":x)).join(" ").toLowerCase().includes(q))}
+  const da=num(f.da),dr=num(f.dr),sp=num(f.spam),tr=num(f.traf);
+  if(da!=null)a=a.filter(s=>(+s.da||0)>=da*k);
+  if(dr!=null)a=a.filter(s=>(+s.dr||0)>=dr*k);
+  if(sp!=null)a=a.filter(s=>s.spam!==""&&s.spam!=null&&+s.spam<=(o.loose?sp*1.5+1:sp));
+  if(tr!=null)a=a.filter(s=>tnum(s.traffic)>=tr*k);
+  if(f.lt!=="All")a=a.filter(s=>s.linkType===f.lt);
+  if(f.idx!=="All")a=a.filter(s=>s.indexing===f.idx);
+  const key={dr:s=>-(+s.dr||0),da:s=>-(+s.da||0),spam:s=>s.spam===""||s.spam==null?999:+s.spam,traf:s=>-tnum(s.traffic),pa:s=>+s.price||0,pd:s=>-(+s.price||0)}[f.sort];
+  return a.sort((x,y)=>key(x)-key(y));
+}
+const spamCol=v=>v===""||v==null?"var(--mut)":+v<=3?"var(--acc)":+v<=10?"var(--amb)":"var(--red)";
+function vMarket(){
+  const f=state.f,all=DB.get("sites",[]),cos=[...new Set(all.map(s=>s.country||"—"))].sort();
+  const _SS=SVCS(),sv=[["All","🌐","All sites","Guest posts + backlinks"],..._SS.map(x=>[x,x==="Guest Post"?"📝":x==="Backlink"?"🔗":"📌",x+"s",x==="Guest Post"?"Article + link on a real website":x==="Backlink"?"Forum, image, profile & directory links":"Custom service"])];
+  const dl=(id,a)=>`<datalist id="${id}">${a.map(x=>`<option value="${esc(x)}">`).join("")}</datalist>`;
+  const nums=[10,20,30,40,50,60,70,80,90];
+  const isBL=f.service==="Backlink";
+  $("#app").innerHTML=`<h1 style="text-align:center;margin-bottom:0">Marketplace</h1><p style="text-align:center;font-size:19px;font-weight:700;margin:4px 0 10px">OffPage Guest Post Backlinks</p><p class="lead" style="text-align:center">Choose guest post &amp; backlink sites by niche, country, traffic and quality (DA / DR / Spam).</p><div style="text-align:center;margin:6px 0 4px"><span class="hqbadge">✨ High Quality Backlinks &amp; Guest Post Service</span></div>
+  <div class="svc">${sv.map(([v,e,t1,d])=>`<button class="sv" data-s="${v}"><span class="ib">${e}</span><span><b>${t1}</b><small>${d}</small></span><span class="n" id="sn_${v.replace(" ","")}"></span></button>`).join("")}</div>
+  <div class="panel"><input class="search" id="fq" placeholder="Search by site name, niche, keyword…" value="${esc(f.q)}">
+  <div class="fgrid">
+    ${isBL?"":`<div><label>Country</label><input id="fcountry" list="dlco" placeholder="e.g. USA, UK, Japan" value="${esc(f.country)}"></div>`}
+    <div><label>Category</label><input id="fcat" list="dlcat" placeholder="e.g. Automotive" value="${esc(f.cat)}"></div>
+    ${isBL?"":`<div><label>Min DA</label><input id="fda" list="dlnum" inputmode="numeric" placeholder="e.g. 30" value="${esc(f.da)}"></div>`}
+    ${isBL?"":`<div><label>Min DR</label><input id="fdr" list="dlnum" inputmode="numeric" placeholder="e.g. 40" value="${esc(f.dr)}"></div>`}
+    ${isBL?"":`<div><label>Max spam score</label><input id="fspam" list="dlsp" inputmode="numeric" placeholder="e.g. 3" value="${esc(f.spam)}"></div>`}
+    <div><label>Min traffic</label><input id="ftraf" list="dltr" placeholder="e.g. 10k" value="${esc(f.traf)}"></div>
+        <div><label>Link type</label><select id="flt"><option>All</option><option>Dofollow</option><option>Nofollow</option></select></div>
+    <div><label>Indexing</label><select id="fidx"><option>All</option><option>Indexable</option><option>Non Indexable</option></select></div>
+    <div><label>Sort by</label>${isBL?`<select id="fsort"><option value="dr">DR: high → low</option><option value="da">DA: high → low</option><option value="spam">Spam: low → high</option><option value="traf">Traffic: high → low</option></select>`:`<select id="fsort"><option value="dr">DR: high → low</option><option value="da">DA: high → low</option><option value="spam">Spam: low → high</option><option value="traf">Traffic: high → low</option><option value="pa">Price: low → high</option><option value="pd">Price: high → low</option></select>`}</div>
+  </div>
+  <div class="facet"><div class="fl">Filter by category</div><div class="chips" id="chc"></div></div>
+  ${isBL?"":`<div class="facet"><div class="fl">Filter by country</div><div class="chips" id="chn"></div></div>`}
+  <div class="row"><span class="meta mono" id="cnt"></span><span style="display:flex;gap:8px;flex-wrap:wrap">${isBL?`<button class="btn g s" id="rst">↺ Reset filters</button><button class="btn g s" id="selall">☑ Select all shown (<span id="seln">0</span>)</button><button class="btn g s" id="dlsel">⬇ CSV</button><button class="btn g s" id="dlselx">⬇ Excel</button><button class="btn g s" id="expdf">🖨 PDF</button>`:`<button class="btn g s" id="rst">↺ Reset filters</button><button class="btn g s" id="exp">⬇ Export CSV</button><button class="btn g s" id="expx">⬇ Excel</button><button class="btn g s" id="expdf">🖨 PDF</button><button class="btn s" id="addall">🛒 Add all shown</button>`}</span></div></div>
+  <div class="grid" id="grid"></div><div id="relbox"></div>
+  ${dl("dlco",cos)}${dl("dlcat",DB.get("categories",[]))}${dl("dlnum",nums)}${dl("dlsp",[1,2,3,5,10,20])}${dl("dltr",["1k","10k","50k","100k","500k","1M"])}`;
+  $("#fq").oninput=e=>{f.q=e.target.value;debList()};
+  [["fcountry","country"],["fcat","cat"],["fda","da"],["fdr","dr"],["fspam","spam"],["ftraf","traf"]].forEach(([id,k])=>{const el=$("#"+id);if(el)el.oninput=e=>{f[k]=e.target.value;debList()}});
+  [["flt","lt"],["fidx","idx"],["fsort","sort"]].forEach(([id,k])=>{const el=$("#"+id);el.value=f[k];el.onchange=()=>{f[k]=el.value;refilter()}});
+  document.querySelectorAll(".sv").forEach(b=>b.onclick=()=>{const ns=b.dataset.s;if(ns!==f.service){f.service=ns;f.cat="";f.country="";f.da="";f.dr="";f.spam="";state.sel=[];vMarket()}else list()});
+  $("#chc").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;const v=b.dataset.c;f.cat=f.cat.trim().toLowerCase()===v.toLowerCase()?"":v;$("#fcat").value=f.cat;refilter()};
+  const chn=$("#chn");if(chn)chn.onclick=e=>{const b=e.target.closest(".chip");if(!b)return;const v=b.dataset.o;f.country=f.country.trim().toLowerCase()===v.toLowerCase()?"":v;$("#fcountry").value=f.country;refilter()};
+  $("#rst").onclick=()=>{state.f={...F0};state.sel=[];vMarket()};
+  const ex=$("#exp");if(ex)ex.onclick=()=>exportCSV(filt(),isBL);
+  const ex2=$("#expx");if(ex2)ex2.onclick=()=>exportXLS(filt(),isBL);
+  const pf=$("#expdf");if(pf)pf.onclick=()=>exportPDF();
+  const aa=$("#addall");if(aa)aa.onclick=()=>{let n=0;filt().forEach(s=>{if(!state.cart.find(c=>c.siteId===s.id)){state.cart.push({siteId:s.id,website:s.website,price:+s.price||0,url:"",anchor:"",otype:/back/i.test(s.service||"")?"Backlink":"Guest Post"});n++}});saveCart();toast("Added to cart");list()};
+  const sa=$("#selall");if(sa)sa.onclick=()=>{filt().forEach(s=>{if(!state.sel.includes(s.id))state.sel.push(s.id)});list();updWaSel()};
+  const dc=$("#dlsel");if(dc)dc.onclick=()=>dlSel("csv");
+  const dx=$("#dlselx");if(dx)dx.onclick=()=>dlSel("xls");
+  state.shown=48;list();updWaSel();
+}
+function card(s){
+  const inC=state.cart.some(c=>c.siteId===s.id),c=s.country||"",p=+s.price||0,isBL=(s.service||"Guest Post")==="Backlink";
+  const met=(v,l,col)=>v===""||v==null?"":`<div class="met"><b${col?` style="color:${col}"`:""}>${esc(v)}${l==="Spam"?"%":""}</b><small>${l}</small></div>`;
+  return `<div class="site" style="--bc:${spamCol(s.spam)}">
+    <div class="sh"><div class="fav"><img src="https://www.google.com/s2/favicons?domain=${esc(s.website)}&sz=64" alt="" onerror="this.replaceWith(document.createTextNode('${esc(s.website[0]||"?").toUpperCase()}'))"></div>
+    <div><div class="wn">${esc(s.website)}</div>${isBL?"":`<div class="meta">${c?`<span class="cc">${cc(c)}</span>${esc(c)}`:"—"}</div>`}</div></div>
+    <span class="tag">${esc(s.category)}</span>${isBL?` <span class="tag hq">High Quality Backlinks</span>`:""}
+    <div class="mets">${met(s.da,"DA")}${met(s.dr,"DR")}${isBL?"":met(s.spam,"Spam",spamCol(s.spam))}<div class="met"><b style="font-size:12px;line-height:22px">${esc(s.traffic||"—")}</b><small>Traffic</small></div></div>
+    <div class="pills"><span class="pill inf">${esc(s.service||"Guest Post")}${s.serviceSub?` · ${esc(s.serviceSub)}`:""}</span><span class="pill ${s.linkType==="Dofollow"?"ok":""}">${esc(s.linkType)}</span><span class="pill ${s.indexing==="Indexable"?"ok":"bad"}">${esc(s.indexing)}</span><span class="pill">⏱ ${esc(s.tat||"—")}</span>${s.payAdvance?`<span class="pill wa">⚠ Advance: ${esc(s.payAdvance)}</span>`:""}</div>
+    ${s.custom&&Object.keys(s.custom).length?`<div class="pills" style="margin-top:6px">${Object.entries(s.custom).map(([k,v])=>`<span class="pill inf">${esc(k)}: <b>${esc(v)}</b></span>`).join("")}</div>`:""}
+    <div class="price">${cur==="USD"?usd(p):`${fmt(p)} <small>PKR</small>`}</div><div class="cp">≈ ${s.priceUSD?"$"+esc(s.priceUSD):money2(p)}</div>
+    ${(!isBL&&s.casinoPrice)?`<div class="cp">🎰 Casino/CBD/Crypto: <b>${money(+s.casinoPrice)}</b></div>`:""}
+    ${s.samples?`<a class="sl" href="${esc(s.samples)}" target="_blank" rel="noopener">View sample ↗</a>`:""}
+    ${s.remarks?`<div class="meta" style="margin-top:6px">📝 ${esc(s.remarks)}</div>`:""}
+    ${isBL?`<label class="sel"><input type="checkbox" ${state.sel.includes(s.id)?"checked":""} onchange="toggleSel('${s.id}',this.checked)"> ${lang==="ur"?"Select karo":"Select"}</label>`:""}
+    <button class="btn${inC?" in":""}" onclick="addCart('${s.id}')">${inC?"✓ In cart":"🛒 Add to cart"}</button>${state.admin?`<button class="btn g s" style="margin-top:6px" onclick="editSite('${s.id}')">✏️ Edit</button>`:""}</div>`;
+}
+
+let debT=null;function debList(){clearTimeout(debT);debT=setTimeout(()=>{state.shown=48;list()},250)}function refilter(){state.shown=48;list()}
+function list(){
+  const f=state.f,all=DB.get("sites",[]);
+  ["All","Guest Post","Backlink"].forEach(v=>{$("#sn_"+v.replace(" ","")).textContent=v==="All"?all.length:all.filter(s=>s.service===v).length});
+  document.querySelectorAll(".sv").forEach(b=>b.classList.toggle("on",b.dataset.s===f.service));
+  const cnt=(a,fn)=>{const m={};a.forEach(s=>{const k=fn(s);m[k]=(m[k]||0)+1});return Object.entries(m).sort((x,y)=>y[1]-x[1])};
+  const cats=cnt(filt({skipCat:true}),s=>s.category),cos=cnt(filt({skipCountry:true}),s=>s.country||"—"),tot=x=>x.reduce((a,b)=>a+b[1],0);
+  const cq=f.cat.trim().toLowerCase(),oq=f.country.trim().toLowerCase();
+  $("#chc").innerHTML=`<button class="chip${!cq?" on":""}" data-c="">All <i>${tot(cats)}</i></button>`+cats.map(([c,n])=>`<button class="chip${cq===c.toLowerCase()?" on":""}" data-c="${esc(c)}">${esc(c)} <i>${n}</i></button>`).join("");
+  if($("#chn"))$("#chn").innerHTML=`<button class="chip${!oq?" on":""}" data-o="">All <i>${tot(cos)}</i></button>`+cos.map(([c,n])=>`<button class="chip${oq===c.toLowerCase()?" on":""}" data-o="${esc(c)}"><span class="cc">${cc(c)}</span>${esc(c)} <i>${n}</i></button>`).join("");
+  const a=filt(),ids=new Set(a.map(s=>s.id));
+  let rel=filt({loose:true}).filter(x=>!ids.has(x.id));
+  if(rel.length<3&&cq){const seen=new Set([...ids,...rel.map(x=>x.id)]);rel=rel.concat(filt({loose:true,skipCat:true}).filter(x=>!seen.has(x.id)))}
+  rel=rel.slice(0,6);
+  $("#cnt").textContent=lang==="ur"?`${a.length} سائٹس ملیں`:`${a.length} sites match`;
+  const shown=state.shown||48,vis=a.slice(0,shown);$("#grid").innerHTML=a.length?vis.map(card).join("")+(a.length>shown?`<div style="grid-column:1/-1;text-align:center"><button class="btn g" onclick="state.shown+=48;list()">⬇ Load more (${a.length-shown} remaining)</button></div>`:""):`<div class="empty">No exact match — try relaxing the filters.</div>`;
+  $("#relbox").innerHTML=rel.length?`<div class="sec">Related sites you may also like</div><p class="lead">Slightly outside your filters — add these to your cart too.</p><div class="grid">${rel.map(card).join("")}</div>`:"";
+}
+function addCart(id){
+  if(state.cart.find(c=>c.siteId===id)){go("cart");return}
+  const s=DB.get("sites",[]).find(x=>x.id===id);if(!s)return;
+  state.cart.push({siteId:id,website:s.website,price:+s.price||0,url:"",anchor:"",otype:/back/i.test(s.service||"")?"Backlink":"Guest Post"});saveCart();toast("Added to cart");list();
+}
+function exportCSV(a,isBL){
+  const cols=isBL?["Website","Service","Category","DA","DR","Spam","Traffic","LinkType","Indexing","TAT","Samples"]:["Website","Service","Category","Country","DA","DR","Spam","Traffic","LinkType","Indexing","Price","CasinoPrice","TAT","Samples","Tags","Remarks"];
+  const q=v=>'"'+String(v==null?"":v).replace(/"/g,'""')+'"';
+  const M={"Website":s=>s.website,"Service":s=>s.service,"Category":s=>s.category,"Country":s=>s.country,"DA":s=>s.da,"DR":s=>s.dr,"Spam":s=>s.spam,"Traffic":s=>s.traffic,"LinkType":s=>s.linkType,"Indexing":s=>s.indexing,"Price":s=>s.price,"CasinoPrice":s=>s.casinoPrice,"TAT":s=>s.tat,"Samples":s=>s.samples,"Tags":s=>s.tags,"Remarks":s=>s.remarks};
+  const cf=[...new Set(a.flatMap(s=>Object.keys(s.custom||{})))];
+  const t=[[cols.join(","),...cf.map(q)].join(","),...a.map(s=>cols.map(c=>q(M[c](s))).concat(cf.map(k=>q((s.custom||{})[k]||""))).join(","))].join("\n");
+  const l=document.createElement("a");l.href=URL.createObjectURL(new Blob([t],{type:"text/csv"}));l.download="offpage-atlas-sites.csv";l.click();
+}
+const waNum=()=>(DB.get("settings",{}).whatsapp||"923026129000").replace(/\D/g,"");
+function toggleSel(id,on){const i=state.sel.indexOf(id);if(on&&i<0)state.sel.push(id);if(!on&&i>-1)state.sel.splice(i,1);updWaSel()}
+function selSites(){const m={};DB.get("sites",[]).forEach(s=>m[s.id]=s);return state.sel.map(id=>m[id]).filter(Boolean)}
+function updWaSel(){
+  const n=$("#seln");if(n)n.textContent=state.sel.length;
+  const a=selSites(),txt=a.length?"Hi, mujhe in backlinks ka rate chahiye:\n\n"+a.map((s,i)=>`${i+1}. ${s.website} (${s.category})`).join("\n"):"Hi, mujhe backlinks ka rate chahiye.";
+  const w=$("#waSel");if(w)w.href="https://wa.me/"+waNum()+"?text="+encodeURIComponent(txt);
+  const m=$("#msgSel");if(m)m.href="https://m.me/abdul.basit.murass";
+}
+function dlSel(kind){const a=selSites();if(!a.length)return toast("Pehle sites select karo ☑");if(kind==="xls")exportXLS(a,true);else exportCSV(a,true)}
+function exportXLS(a,isBL){
+  if(typeof XLSX==="undefined")return toast("Excel library load nahi hui — internet check karo");
+  const rows=a.map(s=>{const r={Website:s.website,Service:s.service,Category:s.category,DA:s.da,DR:s.dr,Spam:s.spam,Traffic:s.traffic,LinkType:s.linkType,Indexing:s.indexing,TAT:s.tat};if(!isBL){r["Price (PKR)"]=s.price;r["Casino Price"]=s.casinoPrice}Object.assign(r,s.custom||{});return r});
+  const ws=XLSX.utils.json_to_sheet(rows),wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,"Sites");XLSX.writeFile(wb,"offpage-atlas-sites.xlsx");toast("Excel download ho gaya ✅");
+}
+function exportPDF(){
+  const a=filt(),isBL=state.f.service==="Backlink";
+  const rows=a.map((s,i)=>`<tr><td>${i+1}</td><td><b>${esc(s.website)}</b></td><td>${esc(s.category)}</td><td>${esc(s.da||"—")}</td><td>${esc(s.dr||"—")}</td><td>${esc(s.traffic||"—")}</td><td>${esc(s.tat||"—")}</td>${isBL?"":`<td>${fmt(s.price)}</td>`}</tr>`).join("");
+  const w=window.open("","_blank");if(!w)return toast("Popup block hai — allow karo");
+  w.document.write(`<html><head><title>OffPage Atlas — Sites</title><style>body{font-family:Arial,sans-serif;padding:20px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #999;padding:6px 8px;font-size:12px;text-align:left}h1{font-size:20px}</style></head><body><h1>OffPage Atlas — ${isBL?"Backlinks":"Sites"} (${a.length})</h1><table><tr><th>#</th><th>Website</th><th>Category</th><th>DA</th><th>DR</th><th>Traffic</th><th>TAT</th>${isBL?"":"<th>Price PKR</th>"}</tr>${rows}</table><\/script><\/body><\/html>`);
+  w.document.close();setTimeout(()=>{try{w.print()}catch(e){}},400);
+}
+
+/* ---------- cart ---------- */
+/* ---------- cart ---------- */
+function vCart(){
+  const c=state.cart;
+  $("#app").innerHTML=`<h1>Your cart</h1><p class="lead">Enter the Target URL and Anchor text for each site, then place your order.</p><div class="panel" id="cbox"></div>`;
+  const b=$("#cbox");
+  if(!c.length){b.innerHTML=`<div class="empty">Your cart is empty — add sites from the Marketplace.</div>`;return}
+  b.innerHTML=c.map((x,i)=>{const ot=x.otype||"Guest Post";return `<div class="crow"><div style="display:flex;justify-content:space-between;align-items:center"><b>${esc(x.website)}</b><span>${+x.price>0?`<b class="mono">${money(x.price)}</b>`:`<span class="pill wa">💬 Price on request</span>`} <button class="btn r s" onclick="state.cart.splice(${i},1);saveCart();vCart()">✕</button></span></div>
+  <div style="margin-top:8px"><span class="pill" style="${ot==="Backlink"?"background:#7c3aed33;color:#c4b5fd":"background:#16653455;color:#86efac"}">📌 ${ot}</span></div>
+  ${ot==="Backlink"?`<label class="ck"><input type="checkbox"${x.ownArticle?" checked":""} onchange="cartOwn(${i},this.checked)"> I will provide my own article</label>${x.ownArticle?`<div class="f2"><div><label>Article file</label><input type="file" onchange="cartFile(${i},'articleFile',this)">${x.articleFile?`<small class="meta">📎 ${esc(x.articleFile.name)} (${Math.round(x.articleFile.size/1024)} KB)</small>`:""}</div><div><label>Image / banner</label><input type="file" accept="image/*" onchange="cartFile(${i},'imageFile',this)">${x.imageFile?`<small class="meta">📎 ${esc(x.imageFile.name)} (${Math.round(x.imageFile.size/1024)} KB)</small>`:""}</div></div><p class="meta">Files server par upload nahi hoti — naam order me note ho jayega, asal file WhatsApp par bhej dein.</p>`:""}`:`<div style="margin-top:8px"><label>Upload your own file (PDF/DOC) <span class="meta">— optional</span></label><input type="file" accept=".pdf,.doc,.docx" onchange="cartFile(${i},'guestFile',this)">${x.guestFile?`<small class="meta">📎 ${esc(x.guestFile.name)} (${Math.round(x.guestFile.size/1024)} KB)</small>`:""}<p class="meta">File ka naam order me note ho jayega — file WhatsApp par bhej dein.</p></div>`}
+  <div class="f2"><div><label>Target URL *</label><input value="${esc(x.url)}" placeholder="https://client-site.com/page" oninput="state.cart[${i}].url=this.value;saveCart()"></div><div><label>Anchor text *</label><input value="${esc(x.anchor)}" placeholder="e.g. best car accessories" oninput="state.cart[${i}].anchor=this.value;saveCart()"></div></div></div>`}).join("")+
+  `<h2 style="margin-top:18px">Your details</h2><div class="f2"><div><label>Name *</label><input id="oName"></div><div><label>Email *</label><input id="oEmail"></div><div><label>WhatsApp *</label><input id="oWA"></div><div><label>Notes</label><input id="oNotes"></div></div>
+  ${(()=>{const tot=c.reduce((a,x)=>a+(+x.price||0),0),hasP=c.some(x=>+x.price>0),hasQ=c.some(x=>!(+x.price>0));return `<div class="tot">${hasP?`Total: <span>${money(tot)}</span>`:`Total: <span>Price on request</span>`}${hasP&&hasQ?`<div class="meta" style="font-size:12px;font-weight:400">${lang==="ur"?"+ backlinks ki price hum aap se contact karke denge":"+ we will contact you with the backlink prices"}</div>`:(!hasP?`<div class="meta" style="font-size:12px;font-weight:400">${lang==="ur"?"Order place karo — hum aap se contact karke price denge":"Place the order — we will contact you with the price"}</div>`:"")}</div>`})()}${payBox()}<button class="btn" onclick="placeOrder()">✅ Place order</button>`;
+}
+function cartType(i,v){state.cart[i].otype=v;if(v==="Backlink"){delete state.cart[i].guestFile}else{delete state.cart[i].articleFile;delete state.cart[i].imageFile;delete state.cart[i].ownArticle}saveCart();vCart()}
+function cartOwn(i,v){state.cart[i].ownArticle=v;saveCart();vCart()}
+function cartFile(i,k,el){const f=el.files&&el.files[0];if(f){state.cart[i][k]={name:f.name,size:f.size};saveCart();vCart()}}
+function copyPay(n){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(n).then(()=>toast("Number copy ✅")).catch(()=>toast(n))}else toast(n)}
+function payBox(){const s=DB.get("settings",{}),jz=String(s.payJazz||"03039982013").trim(),ep=String(s.payEP||"").trim();const jd=jz.replace(/(\d{4})(\d+)/,"$1 $2");return `<div class="panel paybox"><h2>💳 Payment</h2><div class="payrow"><span class="paylogo jazz">JazzCash</span><b class="mono">${esc(jd)}</b><button class="btn g s" onclick="copyPay('${esc(jz.replace(/\D/g,""))}')">📋 Copy</button></div><div class="payrow"><span class="paylogo ep">Easypaisa</span>${ep?`<b class="mono">${esc(ep)}</b><button class="btn g s" onclick="copyPay('${esc(ep.replace(/\D/g,""))}')">📋 Copy</button>`:`<span class="meta">—</span>`}</div><p class="meta">For payment, please contact us on WhatsApp.</p></div>`}
+function beep(){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=new C(),o=c.createOscillator(),g=c.createGain();o.type="sine";o.frequency.value=880;g.gain.setValueAtTime(0.0001,c.currentTime);g.gain.exponentialRampToValueAtTime(0.4,c.currentTime+0.03);g.gain.exponentialRampToValueAtTime(0.0001,c.currentTime+0.5);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+0.55)}catch(e){}}
+function placeOrder(){
+  const g=i=>$("#"+i).value.trim(),name=g("oName"),email=g("oEmail"),wa=g("oWA");
+  if(!name||!email||!wa)return toast("Name, email and WhatsApp are required");
+  if(state.cart.some(c=>!c.url||!c.anchor))return toast("Enter a Target URL and Anchor text for every site");
+  const orders=DB.get("orders",[]),id="OA-"+(1040+orders.length+1),total=state.cart.reduce((a,c)=>a+(+c.price||0),0);
+  orders.unshift({id,date:new Date().toISOString().slice(0,10),read:false,name,email,whatsapp:wa,notes:g("oNotes"),items:state.cart.map(c=>{const t=DB.get("sites",[]).find(x=>x.id===c.siteId)||{};return{...c,vendor:t.vendor||"",vendorWA:t.vendorWA||"",cost:+t.cost||0,live:""}}),total,status:"New"});
+  DB.set("orders",orders);updBell();beep();toast("New order received 🔔");const n=state.cart.length;
+  const lines=state.cart.map(c=>{const ot=c.otype||"Guest Post";const fl=[c.articleFile&&"article: "+c.articleFile.name,c.imageFile&&"image: "+c.imageFile.name,c.guestFile&&"file: "+c.guestFile.name].filter(Boolean).join(", ");return `• ${c.website} (${ot}${fl?", "+fl:""}) → ${c.url} | ${c.anchor}`}).join("\n");
+  state.cart=[];saveCart();
+  const num=(DB.get("settings",{}).whatsapp||"").replace(/\D/g,""),msg=encodeURIComponent(`New Order ${id}\nName: ${name}\n${lines}\nSites: ${n}\nTotal: ${total>0?total+" PKR":"Price on request"}\nPlease confirm.`);
+  $("#cbox").innerHTML=`<div class="al ok" style="text-align:center;padding:26px">🎉 <b style="font-size:20px">Shukriya! Aapka order mil gaya</b><br><span style="font-size:15px">Order ID: <b class="mono" style="font-size:19px">${id}</b></span><br><br><span class="meta">Hum aap se khud contact karenge. Chahein to order abhi WhatsApp par bhej dein — <b>optional</b> hai:</span><br>${num?`<br><a class="btn s wabtn" target="_blank" href="https://wa.me/${num}?text=${msg}">📩 Order WhatsApp par bhejo</a><br><span class="meta">+92 302 6129000</span>`:""}</div>`;
+}
+
+/* ---------- admin: dashboard ---------- */
+function bars(m,on){
+  const e=Object.entries(m).sort((a,b)=>b[1]-a[1]),mx=Math.max(1,...e.map(x=>x[1]));
+  return e.length?e.map(([k,v])=>`<div class="bar" onclick="${on}('${esc(k).replace(/'/g,"\\'")}')"><span>${esc(k)}</span><span class="t"><i style="width:${v/mx*100}%"></i></span><b>${v}</b></div>`).join(""):`<div class="meta">No data</div>`;
+}
+function viewCat(c){state.f={...F0,cat:c};go("market")}
+function viewSvc(s){state.f={...F0,service:s};go("market")}
+function viewCountry(c){state.f={...F0,country:c};go("market")}
+const days14=()=>{const a=[];for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);a.push(d.toISOString().slice(0,10))}return a};
+function spark(v,c){const mx=Math.max(1,...v),p=v.map((y,i)=>`${(i*300/(v.length-1)).toFixed(1)},${(54-y/mx*48).toFixed(1)}`).join(" ");return `<svg class="spark" viewBox="0 0 300 60" preserveAspectRatio="none"><polygon points="0,60 ${p} 300,60" fill="${c}" opacity=".14"/><polyline points="${p}" fill="none" stroke="${c}" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`}
+const costOf=x=>x.items.reduce((b,i)=>b+(+i.cost||0),0);
+function vDash(){
+  const s=DB.get("sites",[]),o=DB.get("orders",[]),cats=DB.get("categories",[]),ok=o.filter(x=>x.status!=="Cancelled"),ds=days14();
+  const rev=ok.reduce((a,x)=>a+(+x.total||0),0),cost=ok.reduce((a,x)=>a+costOf(x),0),vend=new Set(s.map(x=>x.vendor).filter(Boolean)).size;
+  const bc={},bco={};s.forEach(x=>{bc[x.category]=(bc[x.category]||0)+1;const c=x.country||"—";bco[c]=(bco[c]||0)+1});
+  const ser=f=>ds.map(d=>ok.filter(x=>x.date===d).reduce((a,x)=>a+f(x),0)),n=st=>o.filter(x=>x.status===st).length;
+  const T=(v,l,ic,c,t)=>`<div class="tile" style="--c:${c}" onclick="go('${t}')"><div class="ic">${ic}</div><div class="n">${v}</div><div class="l">${l}</div></div>`;
+  const M=(v,l)=>`<div><b>${v}</b><small>${l}</small></div>`;
+  $("#app").innerHTML=`<div class="hero"><div><span class="badge">● Admin dashboard</span><h1>Admin <span>Control Center</span></h1><p class="lead" style="margin:0">Sites, suppliers, orders aur profit ek nazar me. Har order par pata chalta hai kis supplier se kharidna hai.</p><div style="margin-top:12px"><span class="hc">All sites</span><span class="hc">Supplier WhatsApp</span><span class="hc">Live links</span><span class="hc">Profit</span></div></div>
+  <div class="mini">${M(s.length,"WEBSITES")}${M(o.length,"ORDERS")}${M(n("New"),"PENDING")}${M(vend,"SUPPLIERS")}</div></div>
+  <div class="sec">Platform snapshot</div>
+  <div class="tiles">${T(s.length,"Websites","🌐","#22c55e","sites")}${T(vend,"Suppliers","🤝","#a78bfa","vend")}${T(Object.keys(bco).length,"Countries","🗺","#3b82f6","market")}${T(cats.length,"Categories","🏷","#f59e0b","cats")}
+  ${T(o.length,"Total orders","📦","#3b82f6","orders")}${T(n("New"),"New orders","🔔","#f59e0b","orders")}${T(fmt(rev),"Revenue (PKR)","💰","#22c55e","orders")}${T(fmt(rev-cost),"Profit (PKR)","📈","#a78bfa","orders")}</div>
+  <div class="two"><div class="panel"><h2>📦 Orders — last 14 days</h2><p class="sub">Live from your orders</p>${spark(ser(()=>1),"#3b82f6")}<div class="mini m3">${M(n("New"),"NEW")}${M(n("Progress"),"IN PROGRESS")}${M(n("Completed"),"COMPLETED")}</div></div>
+  <div class="panel"><h2>💰 Revenue & profit</h2><p class="sub">Sale price − supplier cost</p>${spark(ser(x=>x.total-costOf(x)),"#22c55e")}<div class="mini m3">${M(fmt(rev),"REVENUE")}${M(fmt(cost),"COST")}${M(fmt(rev-cost),"PROFIT")}</div></div></div>
+  <div class="two"><div class="panel"><h2>Sites by category</h2><p class="sub">Click → Marketplace</p>${bars(bc,"viewCat")}</div><div class="panel"><h2>Sites by country</h2><p class="sub">Domain se auto detect</p>${bars(bco,"viewCountry")}</div></div>
+  <div class="two"><div class="panel"><h2>Recent orders</h2>${o.length?`<table>${o.slice(0,5).map(x=>`<tr><td class="mono">${esc(x.id)}</td><td>${esc(x.name)}</td><td class="mono">${fmt(x.total)}</td><td><span class="st ${x.status}">${x.status}</span></td></tr>`).join("")}</table>`:'<div class="meta">Abhi koi order nahi.</div>'}</div>
+  <div class="panel"><h2>Needs attention</h2><div class="pills" style="margin-top:10px"><span class="pill wa">${s.filter(x=>!x.vendor).length} sites without supplier</span><span class="pill wa">${s.filter(x=>x.spam===""||x.spam==null).length} without spam score</span><span class="pill wa">${s.filter(x=>x.sample).length} sample sites</span><span class="pill bad">${s.filter(x=>x.indexing!=="Indexable").length} non-indexable</span><span class="pill wa">${s.filter(x=>!x.cost).length} without cost</span></div></div></div>`;
+}
+
+/* ---------- admin: sites ---------- */
+function vSites(){
+  const s=DB.get("sites",[]);
+  $("#app").innerHTML=`<h1>Websites</h1><p class="lead">${s.length} sites in inventory.</p><div class="panel"><div class="row" style="justify-content:flex-start;margin-bottom:8px"><button class="btn r s" onclick="delSelSites()">🗑 Selected delete (<span id="delN">0</span>)</button><button class="btn s" onclick="fixCountries()" title="Domain suffix se country dobara detect karo">🌍 Re-detect countries</button><button class="btn s" onclick="fixCategories()" title="Domain/keywords se niche dobara detect karo">🏷 Fix categories</button></div><div class="tw"><table class="sites-table"><colgroup><col style="width:34px"><col style="width:200px"><col style="width:110px"><col style="width:90px"><col style="width:64px"><col style="width:56px"><col style="width:76px"><col style="width:96px"><col style="width:120px"><col style="width:150px"><col style="width:86px"></colgroup><tr><th><input type="checkbox" id="selAllS" onchange="toggleSelAllSites(this.checked)"></th><th>Website</th><th>Category</th><th>Country</th><th>DA/DR</th><th>Spam</th><th>Traffic</th><th>Type</th><th>Price</th><th>Supplier (private)</th><th></th></tr>${s.map(x=>`<tr><td><input type="checkbox"${state.sdel.includes(x.id)?" checked":""} onchange="toggleSiteDel('${x.id}',this.checked)"></td><td class="wsite"><b>${esc(x.website)}</b>${x.sample?' <span class="pill wa">sample</span>':""}${x.custom&&Object.keys(x.custom).length?Object.entries(x.custom).map(([k,v])=>`<br><small class="meta">📎 ${esc(k)}: ${esc(v)}</small>`).join(""):""}</td><td>${esc(x.category)}<br><small class="meta">${esc(x.service)}</small></td><td>${esc(x.country||"—")}</td><td class="mono">${esc(x.da||"—")}/${esc(x.dr||"—")}</td><td class="mono" style="color:${spamCol(x.spam)}">${x.spam===""?"—":x.spam+"%"}</td><td>${esc(x.traffic||"—")}</td><td>${esc(x.linkType)}<br><small class="meta">${esc(x.indexing)}</small>${x.serviceSub?`<br><small class="meta">${esc(x.serviceSub)}</small>`:""}</td><td class="mono">${fmt(x.price)}${x.priceUSD?`<br><small class="meta">$${esc(x.priceUSD)}</small>`:""}${x.casinoPrice?`<br><small class="meta">🎰 ${fmt(x.casinoPrice)}</small>`:""}${x.guestPrice?`<br><small class="meta">G $${esc(x.guestPrice)}</small>`:""}${x.liPrice?`<br><small class="meta">LI $${esc(x.liPrice)}</small>`:""}${x.cost?`<br><small class="meta">cost ${fmt(x.cost)}</small>`:""}${x.payAdvance?`<br><small class="meta">Adv: ${esc(x.payAdvance)}</small>`:""}</td><td>${x.vendor?`<b>${esc(x.vendor)}</b><br><a class="meta" target="_blank" href="https://wa.me/${(x.vendorWA||"").replace(/\D/g,"")}">${esc(x.vendorWA||"")}</a>`:'<span class="pill wa">no supplier</span>'}${x.cost?`<br><small class="meta">cost ${fmt(x.cost)}</small>`:""}</td><td style="white-space:nowrap"><button class="btn g s" onclick="editSite('${x.id}')">✏</button> <button class="btn r s" onclick="delSite('${x.id}')">🗑</button></td></tr>`).join("")}</table></div>${s.some(x=>x.sample)?`<div class="al w">Sample data hai — asli sites add karke delete kar dena.</div>`:""}</div>`;
+}
+function fixCountries(){
+  const s=DB.get("sites",[]),chg=s.filter(x=>detectCountry(x.website)!==(x.country||""));
+  if(!chg.length)return toast("Sab countries pehle se theek hain ✅");
+  if(!confirm(chg.length+" sites ka country domain suffix se update hoga:\n• .au→Australia, .jp→Japan, .de→Germany, .pk→Pakistan\n• .com/.org waghera → blank\n\nManual likha hua country bhi replace ho jayega. Continue?"))return;
+  s.forEach(x=>{const d=detectCountry(x.website);if(d!==(x.country||""))x.country=d});
+  DB.set("sites",s);toast(chg.length+" countries theek ho gayin 🌍");vSites();
+}
+function fixCategories(){
+  const s=DB.get("sites",[]),cats=DB.get("categories",[]);let n=0;
+  s.forEach(x=>{const c=String(x.category||"").trim().toLowerCase();if(!c||c==="general"){const isBL=String(x.service||"").toLowerCase()==="backlink";const nc=isBL?detectBacklinkType(x.website,x.tags):detectNiche(x.website,x.tags);if(nc){x.category=nc;n++;if(!cats.includes(nc))cats.push(nc)}}});
+  if(!n)return toast("Sab categories pehle se theek hain ✅");
+  if(!confirm(n+" sites ki category auto-detect hogi (sirf General wali). Continue?"))return;
+  DB.set("sites",s);DB.set("categories",cats);toast(n+" categories auto-detect huin 🏷");vSites();
+}
+function vAdd(){
+  const e=state.edit?DB.get("sites",[]).find(x=>x.id===state.edit):null,v=k=>esc(e?e[k]??"":"");
+  const cats=DB.get("categories",[]);
+  $("#app").innerHTML=`<h1>${e?"Edit site":"Add new site"}</h1><p class="lead">Country blank chhodo to domain se auto detect hoga.</p><div class="panel"><div class="f3">
+  <div><label>Website *</label><input id="fWeb" value="${v("website")}" placeholder="example.com.au"></div>
+  <div><label>Category *</label><input id="fCat" list="catList" value="${v("category")||"General"}" placeholder="General"><datalist id="catList">${cats.map(c=>`<option value="${esc(c)}">`).join("")}</datalist></div>
+  <div><label>Country</label><input id="fCo" list="coList" value="${v("country")}" placeholder="Auto (domain)"><datalist id="coList">${[...COUNTRIES,"International"].map(c=>`<option value="${esc(c)}">`).join("")}</datalist></div>
+  <div><label>Tags / keywords</label><input id="fTags" value="${v("tags")}" placeholder="car accessories parts"></div>
+  <div><label>DA</label><input id="fDA" type="number" value="${v("da")}"></div><div><label>DR</label><input id="fDR" type="number" value="${v("dr")}"></div>
+  <div><label>Spam score %</label><input id="fSp" type="number" value="${v("spam")}"></div><div><label>Traffic</label><input id="fTra" value="${v("traffic")}" placeholder="28.6k"></div>
+  <div><label>Link type</label><select id="fLT"><option${e&&e.linkType==="Nofollow"?"":" selected"}>Dofollow</option><option${e&&e.linkType==="Nofollow"?" selected":""}>Nofollow</option></select></div>
+  <div><label>Indexing</label><select id="fIdx"><option${e&&e.indexing==="Non Indexable"?"":" selected"}>Indexable</option><option${e&&e.indexing==="Non Indexable"?" selected":""}>Non Indexable</option></select></div>
+  <div><label>TAT</label><input id="fTAT" value="${v("tat")}" placeholder="2-3 days"></div><div><label>Price (PKR) *</label><input id="fPrice" type="number" value="${v("price")}"></div>
+  <div><label>Price (USD) — alag se</label><input id="fPUSD" value="${v("priceUSD")}" placeholder="e.g. 4.50"></div><div><label>Casino/CBD/Crypto price</label><input id="fCP" type="number" value="${v("casinoPrice")}"></div><div><label>Payment advance (admin only)</label><input id="fAdv" value="${v("payAdvance")}" placeholder="e.g. 50% advance"></div><div><label>Guest post price $ (seller cost, admin)</label><input id="fGP" value="${v("guestPrice")}" placeholder="20"></div><div><label>LI price $ (admin only)</label><input id="fLI" value="${v("liPrice")}" placeholder="20"></div><div><label>Sample link</label><input id="fSam" value="${v("samples")}" placeholder="https://…"></div><div><label>Remarks</label><input id="fRem" value="${v("remarks")}"></div><div><label>Service *</label><input id="fSvc" list="svcList" value="${v("service")||"Guest Post"}" placeholder="Guest Post"><datalist id="svcList">${SVCS().map(x=>`<option value="${esc(x)}">`).join("")}</datalist></div>
+  <div><label>Service type detail</label><input id="fSSub" value="${v("serviceSub")}" placeholder="e.g. Forum backlink, SaaS niche"></div></div>
+  ${customFieldsHTML(e)}
+  <div class="vbox"><h2>🔒 Supplier — private, customers ko nahi dikhta</h2><div class="f3"><div><label>Supplier name</label><input id="fVen" value="${v("vendor")}" placeholder="e.g. Saleem"></div><div><label>Supplier WhatsApp</label><input id="fVWA" value="${v("vendorWA")}" placeholder="923001234567"></div><div><label>Your cost (PKR)</label><input id="fCost" type="number" value="${v("cost")}"></div></div></div>
+  <div class="row" style="justify-content:flex-start"><button class="btn" onclick="saveSite()">💾 Save site</button><button class="btn g" onclick="state.edit=null;vAdd()">↩ Clear</button></div></div>`;
+}
+function customFieldsHTML(e){
+  const names=[...new Set([...DB.get("customFields",[]),...Object.keys((e&&e.custom)||{})])];
+  if(!names.length)return "";
+  return `<div class="vbox"><h2>📎 Extra fields (sheet se aaye)</h2><p class="meta" style="margin:0 0 8px">Sheet ka koi bhi extra column yahan nazar ayega aur marketplace par show hoga.</p><div class="f3">${names.map(n=>`<div><label>${esc(n)}</label><input data-cf="${esc(n)}" value="${esc(((e&&e.custom)||{})[n]||"")}"></div>`).join("")}</div></div>`;
+}
+function saveSite(){
+  
+  const g=i=>$("#"+i).value.trim(),web=g("fWeb").replace(/^https?:\/\//,"").replace(/\/$/,""),price=+g("fPrice")||0;
+  if(!web||!price)return toast("Website aur Price zaroori hai");
+  const newCat=g("fCat")||"General",newSvc=g("fSvc")||"Guest Post";
+  const cats=DB.get("categories",[]);if(!cats.includes(newCat)){cats.push(newCat);DB.set("categories",cats)}
+  const svcs=SVCS();if(!svcs.includes(newSvc)){svcs.push(newSvc);DB.set("services",svcs)}
+  const custom={};document.querySelectorAll("[data-cf]").forEach(el=>{const k=el.getAttribute("data-cf"),vv=el.value.trim();if(k&&vv)custom[k]=vv});
+  const cfNames=DB.get("customFields",[]),newCF=Object.keys(custom).filter(k=>!cfNames.includes(k));if(newCF.length)DB.set("customFields",cfNames.concat(newCF));
+  const sites=DB.get("sites",[]),r={website:web,category:newCat,country:g("fCo")||detectCountry(web),tags:g("fTags"),da:g("fDA"),dr:g("fDR"),spam:g("fSp"),traffic:g("fTra"),linkType:g("fLT"),indexing:g("fIdx"),tat:g("fTAT"),price,priceUSD:g("fPUSD").replace(/[^\d.]/g,""),casinoPrice:+g("fCP")||"",samples:g("fSam"),remarks:g("fRem"),service:newSvc,serviceSub:g("fSSub"),vendor:g("fVen"),vendorWA:g("fVWA"),cost:+g("fCost")||"",payAdvance:g("fAdv"),guestPrice:g("fGP").replace(/[^\d.]/g,""),liPrice:g("fLI").replace(/[^\d.]/g,""),custom};
+  autoUSD(r);
+  const i=state.edit?sites.findIndex(s=>s.id===state.edit):-1;
+  if(i>-1){r.id=state.edit;sites[i]=r}else{r.id=uid();sites.unshift(r)}
+  DB.set("sites",sites);state.edit=null;toast("Site save ho gayi ✅");go("sites");
+}
+function editSite(id){state.edit=id;go("add")}
+function delSite(id){if(!confirm("Ye site Trash me bhejni hai?"))return;toTrash([id]);toast("Trash me bhej di 🗑");vSites()}
+function toTrash(ids){const all=DB.get("sites",[]),tr=DB.get("trash",[]),now=Date.now(),set=new Set(ids);DB.set("trash",tr.concat(all.filter(s=>set.has(s.id)).map(s=>Object.assign({},s,{_delAt:now}))));DB.set("sites",all.filter(s=>!set.has(s.id)));syncTrashN()}
+function syncTrashN(){const b=$("#trashN"),n=DB.get("trash",[]).length;if(b){b.textContent=n;b.hidden=!n}}
+function vTrash(){
+  const t=DB.get("trash",[]);
+  $("#app").innerHTML=`<h1>Trash</h1><p class="lead">${t.length} deleted sites — yahan se restore ya hamesha ke liye delete karo.</p><div class="panel"><div class="row" style="justify-content:flex-start;margin-bottom:8px;gap:8px"><button class="btn s" onclick="restoreSelTrash()">↩ Selected restore (<span id="trsN">${state.trashSel.length}</span>)</button><button class="btn r s" onclick="delSelTrash()">🗑 Selected delete forever</button><button class="btn r s" onclick="emptyTrash()">🔥 Empty trash</button></div><div class="tw"><table><tr><th><input type="checkbox" id="selAllT" onchange="toggleSelAllTrash(this.checked)"></th><th>Website</th><th>Category</th><th>Price</th><th>Supplier</th><th>Deleted</th><th></th></tr>${t.map(x=>`<tr><td><input type="checkbox"${state.trashSel.includes(x.id)?" checked":""} onchange="toggleTrashSel('${x.id}',this.checked)"></td><td><b>${esc(x.website)}</b></td><td>${esc(x.category)}</td><td class="mono">${fmt(x.price)}</td><td>${esc(x.vendor||"—")}</td><td class="meta">${x._delAt?new Date(x._delAt).toLocaleDateString():"—"}</td><td style="white-space:nowrap"><button class="btn s" onclick="restoreTrash('${x.id}')">↩ Restore</button> <button class="btn r s" onclick="delForeverTrash('${x.id}')">🗑</button></td></tr>`).join("")||`<tr><td colspan="7" class="meta" style="text-align:center;padding:20px">Trash khaali hai ✅</td></tr>`}</table></div></div>`;
+}
+function toggleTrashSel(id,on){const a=state.trashSel,i=a.indexOf(id);if(on&&i<0)a.push(id);if(!on&&i>-1)a.splice(i,1);const b=$("#trsN");if(b)b.textContent=a.length}
+function toggleSelAllTrash(on){state.trashSel=on?DB.get("trash",[]).map(s=>s.id):[];vTrash()}
+function restoreTrash(id){const tr=DB.get("trash",[]),x=tr.find(s=>s.id===id);if(!x)return;const c=Object.assign({},x);delete c._delAt;DB.set("sites",[c].concat(DB.get("sites",[])));DB.set("trash",tr.filter(s=>s.id!==id));state.trashSel=state.trashSel.filter(i=>i!==id);syncTrashN();toast("Restore ho gayi ↩");vTrash()}
+function restoreSelTrash(){const n=state.trashSel.length;if(!n)return toast("Pehle select karo ☑");const ids=new Set(state.trashSel),mv=[];DB.get("trash",[]).forEach(s=>{if(ids.has(s.id)){const c=Object.assign({},s);delete c._delAt;mv.push(c)}});DB.set("sites",mv.concat(DB.get("sites",[])));DB.set("trash",DB.get("trash",[]).filter(s=>!ids.has(s.id)));state.trashSel=[];syncTrashN();toast(n+" restore ho gayin ↩");vTrash()}
+function delForeverTrash(id){if(!confirm("Hamesha ke liye delete? Ye wapas nahi ayegi!"))return;DB.set("trash",DB.get("trash",[]).filter(s=>s.id!==id));state.trashSel=state.trashSel.filter(i=>i!==id);syncTrashN();vTrash()}
+function delSelTrash(){const n=state.trashSel.length;if(!n)return toast("Pehle select karo ☑");if(!confirm(n+" sites HAMESHA ke liye delete?"))return;const ids=new Set(state.trashSel);DB.set("trash",DB.get("trash",[]).filter(s=>!ids.has(s.id)));state.trashSel=[];syncTrashN();toast(n+" hamesha ke liye delete 🗑");vTrash()}
+function emptyTrash(){if(!DB.get("trash",[]).length)return toast("Trash pehle se khaali hai");if(!confirm("Poora Trash khaali karna hai? Ye wapas nahi ayega!"))return;DB.set("trash",[]);state.trashSel=[];syncTrashN();toast("Trash khaali ho gaya 🔥");vTrash()}
+function toggleSiteDel(id,on){const a=state.sdel,i=a.indexOf(id);if(on&&i<0)a.push(id);if(!on&&i>-1)a.splice(i,1);updDelN()}
+function toggleSelAllSites(on){state.sdel=on?DB.get("sites",[]).map(s=>s.id):[];vSites();const b=$("#selAllS");if(b)b.checked=on;updDelN()}
+function updDelN(){const b=$("#delN");if(b)b.textContent=state.sdel.length}
+function delSelSites(){const n=state.sdel.length;if(!n)return toast("Pehle sites select karo ☑");if(!confirm(n+" sites Trash me bhejni hain?"))return;toTrash(state.sdel.slice());state.sdel=[];toast(n+" sites Trash me chali gayin 🗑");vSites()}
+
+/* ---------- admin: upload ---------- */
+function vUpload(){
+  $("#app").innerHTML=`<h1>Bulk upload</h1><p class="lead">Excel (.xlsx — har sheet-tab apni category banegi), ya CSV paste/file. Seller ka naam ek jaga likho — sab sites me save ho jayega (sirf admin dekhega).</p>${liveBanner()}<div class="panel">
+  <div class="vbox"><h2>🔒 Supplier — is upload ki sab sites ke liye (private)</h2><div style="margin-bottom:10px"><label>📌 Saved supplier chuno</label><select id="upVenSel" onchange="pickSupplier(this.value)"><option value="">— Naya supplier (neeche likho) —</option>${SUPPLIERS().map(x=>`<option value="${esc(x.name)}">${esc(x.name)}${x.wa?" — "+esc(x.wa):""}</option>`).join("")}</select></div><div class="f2"><div><label>Seller name</label><input id="upVen" placeholder="e.g. Ranktro" oninput="syncVenSel()"></div><div><label>Seller WhatsApp</label><input id="upVWA" placeholder="923001234567"></div></div><p class="meta" style="margin:6px 0 0">Naam/WhatsApp ek dafa likh kar upload karo — agli dafa list se chun lena, dobara likhna nahi parega.</p></div>
+  <div class="al">Header (CSV): <code>Website, Service, Category, Country, DA, DR, Spam, Traffic, LinkType, Indexing, Price, CasinoPrice, TAT, Samples, Tags, Remarks, Vendor, VendorWA, Cost</code><br>Ranktro sheet: <code>website, category, DA, DR, TRAFFIC, TOP LOCATION, SPAM SCORE, TAT, PAYMENT ADVANCE, GUEST POST PRICE, LIST PRICE, MY PRICE</code><br>Sirf <b>Website</b> zaroori hai. <b>Koi bhi extra column</b> (jaise neeche wale hisse ka) auto-save hoga — Edit Site me edit aur marketplace par show hoga. Excel me ek se zyada tables (neeche alag header wali) bhi parhi jayengi. Country blank ho to <b>Top Location</b> (pk, us, uk…) ya domain se detect hoga. <b>MY PRICE</b> tumhara selling rate banega.</div>
+  <div class="row" style="justify-content:flex-start;margin:10px 0"><button class="btn g" onclick="applyVen()">🔄 Jin sites me supplier nahi — un me upar wala seller lagao</button></div><div><label>📊 Excel file (.xlsx / .xls)</label><input type="file" id="xlFile" accept=".xlsx,.xls"></div>
+  <div><label style="margin-top:12px">…ya CSV file</label><input type="file" id="csvFile" accept=".csv"></div>
+  <label style="margin-top:12px">…ya CSV paste karo</label><textarea id="csvText"></textarea>
+  <div class="row" style="justify-content:flex-start"><button class="btn" onclick="doImport($('#csvText').value,$('#upVen').value.trim(),$('#upVWA').value.trim())">📥 Import</button><button class="btn g" onclick="pasteModal()">📋 Excel se copy-paste (baghair file)</button><button class="btn g" onclick="exportCSV(DB.get('sites',[]),false)">⬇ Export CSV</button><button class="btn g" onclick="exportXLS(DB.get('sites',[]),false)">⬇ Export Excel</button><button class="btn g" onclick="exportPDF()">🖨 Export PDF</button></div><div id="imp"></div></div>`;
+  $("#csvFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=x=>doImport(x.target.result,$("#upVen").value.trim(),$("#upVWA").value.trim());r.readAsText(f)};
+  $("#xlFile").onchange=e=>{const f=e.target.files[0];if(!f)return;doExcel(f,$("#upVen").value.trim(),$("#upVWA").value.trim())};
+}
+
+function splitCSV(l){const o=[];let c="",q=false;for(let i=0;i<l.length;i++){const ch=l[i];if(ch==='"'){if(q&&l[i+1]==='"'){c+='"';i++}else q=!q}else if((ch===","||ch==="|"||ch===";")&&!q){o.push(c);c=""}else c+=ch}o.push(c);return o.map(s=>s.trim())}
+function parseImportCSV(txt){
+  const L=(txt||"").split(/\r?\n/).filter(l=>l.trim());
+  if(L.length<2)return{rows:[],cats:[],cfields:[]};
+  const H=splitCSV(L[0]).map(h=>h.toLowerCase().replace(/[^a-z]/g,"")),ix=f=>H.findIndex(h=>f(h)),
+  G={web:Math.max(0,ix(h=>h.indexOf("website")===0)),cat:ix(h=>h.indexOf("category")===0),co:ix(h=>h==="country"),da:ix(h=>h==="da"),dr:ix(h=>h==="dr"),sp:ix(h=>h.includes("spam")),tr:ix(h=>h==="traffic"),lt:ix(h=>h.includes("linktype")),ix:ix(h=>h==="indexing"),pr:ix(h=>h==="price"||h==="pricepkr"||h==="generalprice"||h==="myprice"),cp:ix(h=>h.includes("casino")),tat:ix(h=>h==="tat"),sam:ix(h=>h.includes("sample")),tag:ix(h=>h==="tags"||h==="keywords"),rem:ix(h=>h==="remarks"),svc:ix(h=>h==="service"||h==="type"),ssub:ix(h=>h.includes("subtype")||h.includes("servicetype")||h==="typedetail"),ven:ix(h=>h==="vendor"||h==="supplier"||h.includes("suppliername")||h.includes("vendorname")||h.includes("sellername")||h.includes("seller")||h==="uploader"),vwa:ix(h=>h.includes("whatsapp")||h.includes("whtsapp")||h.includes("whatsup")||h.includes("supplierphone")||h.includes("vendorphone")||h.includes("sellerphone")||h==="phone"||h==="mobile"||h.includes("phonenumber")||h.includes("mobilenumber")||h.includes("contactnumber")),cost:ix(h=>h==="cost"||h==="costprice"),pusd:ix(h=>h==="usd"||h.includes("priceusd")||h.includes("usdprice")),tl:ix(h=>h==="toplocation"||h==="toploc"||h==="location"),adv:ix(h=>h.includes("paymentadvance")||h==="advance"),gp:ix(h=>h==="guestpostprice"||h==="guest"||h==="guestprice"),li:ix(h=>h==="liprice"||h==="listprice"||h==="list")};
+  const rawH=splitCSV(L[0]),usedIx=new Set(Object.values(G).filter(v=>v>-1)),cix=rawH.map((h,i)=>({h:h.trim(),i})).filter(x=>x.h&&!usedIx.has(x.i));
+  const rows=[],cats=[],seen=new Set();
+  for(let i=1;i<L.length;i++){
+    const p=splitCSV(L[i]),g=k=>G[k]>-1?(p[G[k]]||""):"",web=normWeb(g("web"));
+    if(!web||seen.has(web.toLowerCase()))continue;
+    seen.add(web.toLowerCase());
+    let cat=g("cat")||"General";const _svc=g("svc"),_isBL=/^back/i.test(_svc)||/forum|image|profile|directory|bookmark|citation|comment|web ?2|backlink|nofollow|\.edu|qna/i.test(g("cat"));if(!cat||cat.toLowerCase()==="general"){const _nc=_isBL?detectBacklinkType(web,g("tag")):detectNiche(web,g("tag"));if(_nc)cat=_nc}if(!cats.includes(cat))cats.push(cat);
+    const tlm=g("tl").match(/\(([a-z]{2})\b/i),tlc=tlm?TLD[tlm[1].toLowerCase()]:"";
+    const custom={};cix.forEach(x=>{const vv=(p[x.i]||"").trim();if(vv)custom[x.h]=vv});
+    const s={website:web,category:cat,country:g("co")||tlc||detectCountry(web),da:g("da"),dr:g("dr"),spam:g("sp").replace(/[^\d.]/g,""),traffic:g("tr"),linkType:/no/i.test(g("lt"))?"Nofollow":"Dofollow",indexing:/non/i.test(g("ix"))?"Non Indexable":"Indexable",price:+g("pr").replace(/[^\d]/g,"")||0,priceUSD:g("pusd").replace(/[^\d.]/g,""),casinoPrice:+g("cp").replace(/[^\d]/g,"")||"",tat:g("tat"),samples:g("sam"),tags:g("tag"),remarks:g("rem"),service:(()=>{const _v=g("svc"),_h=SVCS().find(x=>x.toLowerCase()===_v.toLowerCase());if(_h)return _h;if(/^back/i.test(_v))return"Backlink";if(/^guest/i.test(_v))return"Guest Post";return /forum|image|profile|directory|bookmark|citation|comment|web ?2|backlink|nofollow|\.edu|qna/i.test(cat)?"Backlink":"Guest Post"})(),serviceSub:g("ssub"),vendor:g("ven"),vendorWA:g("vwa"),cost:+g("cost").replace(/[^\d]/g,"")||"",payAdvance:g("adv"),guestPrice:g("gp").replace(/[^\d.]/g,""),liPrice:g("li").replace(/[^\d.]/g,""),custom};
+    autoUSD(s);rows.push(s);
+  }
+  return{rows,cats,cfields:[...new Set(cix.map(x=>x.h))]};
+}
+function doImport(txt,ven,vwa){
+  const R=parseImportCSV(txt);
+  if(!R.rows.length)return toast("Header + kam az kam 1 row chahiye");
+  const cats=DB.get("categories",[]),sites=DB.get("sites",[]),have=new Set(sites.map(s=>s.website.toLowerCase()));let add=0,skip=0;const nc=[];
+  R.rows.forEach(r=>{
+    const k=r.website.toLowerCase();
+    if(have.has(k)){skip++;return}
+    have.add(k);r.id=uid();
+    if(!cats.includes(r.category)){cats.push(r.category);nc.push(r.category)}
+    if(ven){r.vendor=ven;r.vendorWA=vwa||r.vendorWA}
+    sites.push(r);add++;
+  });
+  DB.set("sites",sites);DB.set("categories",cats);
+  const cfNames=DB.get("customFields",[]);
+  const newCF=R.cfields.filter(h=>!cfNames.includes(h));if(newCF.length)DB.set("customFields",cfNames.concat(newCF));
+  if(ven)saveSupplier(ven,vwa);
+  $("#imp").innerHTML=`<div class="al ok">✅ <b>${add}</b> sites add hui${ven?` — supplier: <b>${esc(ven)}</b>`:""}${nc.length?`, nayi categories: <b>${nc.map(esc).join(", ")}</b>`:""}${skip?` (${skip} skip)`:""}</div>`;
+}
+
+/* ---------- live google sheet (clients hamesha taza data dekhenge) ---------- */
+const PRIV_KEYS=["vendor","vendorWA","cost","guestPrice","liPrice","payAdvance"];
+
+function normWeb(w){return String(w||"").toLowerCase().replace(/^https?:\/\//,"").replace(/^www\./,"").replace(/\/$/,"").trim()}
+function normalizeLiveURL(u){
+  u=String(u||"").trim();
+  if(!u)return "";
+  if(/\/spreadsheets\/d\/[a-zA-Z0-9-_]+\/edit/.test(u))return {err:"Edit wala link nahi — File → Share → Publish to web se CSV link lo 📡"};
+  let m=u.match(/\/spreadsheets\/d\/e\/([a-zA-Z0-9-_]+)/);
+  if(m){
+    const id=m[1];
+    let gid=(u.match(/[?&]gid=(\d+)/)||[])[1]||"";
+    let base="https://docs.google.com/spreadsheets/d/e/"+id+"/pub";
+    return base+"?"+(gid?("gid="+gid+"&"):"")+"single=true&output=csv";
+  }
+  if(u.indexOf("output=csv")<0){
+    return {err:"Ye CSV link nahi lag raha — Publish to web se /pub wala link lo 📡"};
+  }
+  return u;
+}
+async function testLiveLink(){
+  const f=document.querySelector("#sLive");const raw=f?f.value:"";
+  const n=normalizeLiveURL(raw);
+  if(n&&n.err)return toast(n.err);
+  if(!n)return toast("Pehle link dalo 📡");
+  toast("Link check ho raha hai… ⏳");
+  try{
+    const r=await fetch(n+(n.indexOf("?")>=0?"&":"?")+"_="+Date.now(),{cache:"no-store"});
+    if(!r.ok)throw new Error("http "+r.status);
+    const t=await r.text();
+    const lines=t.split(/\r?\n/).filter(l=>l.trim());
+    if(lines.length<2||lines[0].toLowerCase().indexOf("website")<0)throw new Error("csv nahi");
+    toast("✅ Link OK — "+(lines.length-1)+" rows milin");
+    if(f&&f.value!==n){f.value=n;toast("✅ Link theek karke laga di — Save dabao");}
+  }catch(e){toast("⚠️ Link nahi khul raha — publish check karo")}
+}
+function liveURL(){
+  const st=DB.get("settings",{});
+  if(st.liveOff)return "";
+  let v=String(st.liveSheet||"").trim();
+  if(v.indexOf("1074644021")>=0){st.liveSheet=v=LIVE_SHEET_URL;try{DB.set("settings",st)}catch(_){}}
+  return v||LIVE_SHEET_URL}
+function extractPrivate(){
+  const all=DB.get("sites",[]),priv=DB.get("priv",{}),have=new Set();
+  all.forEach(x=>{const d=normWeb(x.website);if(!d)return;have.add(d);
+    const o={};PRIV_KEYS.forEach(k=>{const v=x[k];if(v!==""&&v!=null)o[k]=v});
+    if(Object.keys(o).length)priv[d]=Object.assign(priv[d]||{},o);else if(priv[d])delete priv[d];});
+  Object.keys(priv).forEach(d=>{if(!have.has(d))delete priv[d]});
+  DB.set("priv",priv);
+}
+function applyPrivate(sites){
+  const priv=DB.get("priv",{}),a=sites||DB.get("sites",[]);
+  a.forEach(x=>{const o=priv[normWeb(x.website)]||priv[String(x.website||"").toLowerCase()];if(o)Object.assign(x,o)});
+  if(!sites)DB.set("sites",a);
+  return a;
+}
+function liveStat(){const m=DB.get("livemeta");return m?`Aakhri sync: ${new Date(m.at).toLocaleString()} — ${m.n} sites`:"Abhi tak live sync nahi hui"}
+function liveBanner(){return liveURL()?`<div class="al" style="margin-bottom:10px">📡 <b>Live sheet ON hai</b> — clients ko wahi dikhega jo Google Sheet me hai. Nayi sites <b>sheet me paste</b> karo; yahan ki upload sirf tumhare browser me rahegi.</div>`:""}
+
+function compactSites(sites){
+  return sites.map(s=>{
+    const o={};
+    for(const k in s){
+      if(k==="id")continue;
+      const v=s[k];
+      if(v===""||v==null||v===0&&k!=="price")continue;
+      if(k==="custom"&&typeof v==="object"&&!Object.keys(v).length)continue;
+      o[k]=v;
+    }
+    if(!o.id&&o.website)o.id="w-"+normWeb(o.website);
+    return o;
+  });
+}
+async function refreshLiveSheet(manual){
+  const url=liveURL();
+  if(!url){if(manual)toast("Pehle Settings me Live Sheet ka CSV link dalo 📡");return false}
+  const done=(ok,msg)=>{if(manual)toast(msg);return ok};
+  try{
+    const r=await fetch(url+(url.indexOf("?")>=0?"&":"?")+"_="+Date.now(),{cache:"no-store"});
+    if(!r.ok)throw new Error("http");
+    const R=parseImportCSV(await r.text());
+    if(!R.rows.length)throw new Error("empty");
+    const cur=DB.get("sites",[]);
+    
+    extractPrivate();
+    R.rows.forEach(s=>{s.id="w-"+normWeb(s.website)});
+    const _cs=compactSites(applyPrivate(R.rows));
+    try{DB.set("sites",_cs)}catch(qe){
+      const _slim=_cs.map(s=>{const o={};["website","category","country","da","dr","traffic","price","priceUSD","service","linkType","tat"].forEach(k=>{if(s[k]!==""&&s[k]!=null)o[k]=s[k]});o.id=s.id;return o});
+      try{DB.set("sites",_slim);toast("⚠️ Storage full — sirf zaroori fields save huin")}
+      catch(e2){throw new Error("storage-full")}
+    }
+    const cats=DB.get("categories",[]);let ch=false;
+    R.cats.forEach(c=>{if(!cats.includes(c)){cats.push(c);ch=true}});if(ch)DB.set("categories",cats);
+    const cfNames=DB.get("customFields",[]),newCF=R.cfields.filter(h=>!cfNames.includes(h));
+    if(newCF.length)DB.set("customFields",cfNames.concat(newCF));
+    DB.set("livemeta",{at:Date.now(),n:R.rows.length});
+    const ls=document.querySelector("#liveStat");if(ls)ls.textContent=liveStat();
+    render();
+    return done(true,"✅ Live sheet: "+R.rows.length+" sites aa gayin");
+  }catch(e){return done(false,e&&e.message==="storage-full"?"⚠️ Data bohat zyada hai — sheet me rows kam karo":"⚠️ Live sheet nahi khul rahi — link/publish check karo")}
+}
+function doExcel(file,ven,vwa){
+  if(typeof XLSX==="undefined")return toast("Excel library load nahi hui — internet check karo");
+  const r=new FileReader();
+  r.onload=e=>{
+    try{
+      const wb=XLSX.read(e.target.result,{type:"array"});let rows=[];
+      wb.SheetNames.forEach(sn=>{
+        if(/guideline|instruction/i.test(sn))return;
+        const aoa=XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,raw:false});
+        const WEBRE=/^\s*web\s*sites?\b/i;const his=[];aoa.forEach((rr,i)=>{if(rr.some(c=>WEBRE.test(String(c||""))))his.push(i)});
+        if(!his.length)return;
+        his.forEach((hi,bi)=>{
+          const head=aoa[hi].map(c=>String(c||"").trim());
+          const wix=head.findIndex(h=>WEBRE.test(h));
+          if(wix<0)return;
+          const end=bi+1<his.length?his[bi+1]:aoa.length;
+          aoa.slice(hi+1,end).forEach(rr=>{
+            const wv=String(rr[wix]||"").trim();
+            if(!wv||WEBRE.test(wv))return;
+            const o={};head.forEach((hh,ii)=>{if(hh)o[hh]=rr[ii]||""});
+            o["__sheetcat"]=sn.replace(/_/g," ").trim();
+            rows.push(o);
+          });
+        });
+      });
+      if(!rows.length)return toast("Koi website wali sheet nahi mili");
+      const keys=[...new Set(rows.flatMap(o=>Object.keys(o).filter(k=>!k.startsWith("__"))))];
+      if(!keys.some(k=>/category/i.test(k)))keys.push("Category");
+      const q=v=>'"'+String(v==null?"":v).replace(/"/g,'""')+'"';
+      const csv=[keys.join(","),...rows.map(o=>keys.map(k=>{let v=o[k];if((v===undefined||v==="")&&/category/i.test(k))v=o["__sheetcat"]||"";return q(v||"")}).join(","))].join("\n");
+      doImport(csv,ven,vwa);
+    }catch(err){toast("Excel read error")}
+  };
+  r.readAsArrayBuffer(file);
+}
+
+
+/* ---------- admin: categories, orders, settings ---------- */
+/* ---------- admin: categories, orders, settings ---------- */
+function vCats(){
+  const cats=DB.get("categories",[]),s=DB.get("sites",[]);
+  $("#app").innerHTML=`<h1>Categories</h1><p class="lead">Nayi niche add karo (Car Accessories, Automotive, News…).</p><div class="panel"><div style="display:flex;gap:10px;max-width:420px"><input id="nc" placeholder="e.g. Travel" onkeydown="if(event.key==='Enter')addCat()"><button class="btn" onclick="addCat()">＋ Add</button></div>
+  <div class="chips">${cats.map(c=>`<span class="chip on" style="cursor:default">${esc(c)} (${s.filter(x=>x.category===c).length}) <b style="cursor:pointer;margin-left:6px" onclick="delCat('${esc(c).replace(/'/g,"\\'")}')">✕</b></span>`).join("")}</div></div><div class="panel" style="margin-top:14px"><h2>🔧 Service types</h2><p class="lead">Guest Post / Backlink ke ilawa apni types add karo (Web 2.0, Nofollow…).</p><div style="display:flex;gap:10px;max-width:420px"><input id="ns" placeholder="e.g. Web 2.0" onkeydown="if(event.key==='Enter')addSvc()"><button class="btn" onclick="addSvc()">＋ Add</button></div><div class="chips">${SVCS().map(x=>`<span class="chip on" style="cursor:default">${esc(x)} (${s.filter(y=>y.service===x).length}) <b style="cursor:pointer;margin-left:6px" onclick="delSvc('${esc(x).replace(/'/g,"\\'")}')">✕</b></span>`).join("")}</div></div>`;
+}
+function addCat(){const v=$("#nc").value.trim(),c=DB.get("categories",[]);if(!v)return;if(c.some(x=>x.toLowerCase()===v.toLowerCase()))return toast("Pehle se hai");c.push(v);DB.set("categories",c);vCats()}
+function delCat(c){if(!confirm(`"${c}" delete? Sites "General" me chali jayengi.`))return;DB.set("categories",DB.get("categories",[]).filter(x=>x!==c));DB.set("sites",DB.get("sites",[]).map(s=>s.category===c?{...s,category:"General"}:s));vCats()}
+const wa=(n,t)=>"https://wa.me/"+String(n||"").replace(/\D/g,"")+"?text="+encodeURIComponent(t);
+/* ---------- v3: service types ---------- */
+function SVCS(){let s=DB.get("services",null);if(!s||!s.length){s=["Guest Post","Backlink"];DB.set("services",s)}return s}
+function addSvc(){const v=$("#ns").value.trim(),s=SVCS();if(!v)return;if(s.some(x=>x.toLowerCase()===v.toLowerCase()))return toast("Pehle se hai");s.push(v);DB.set("services",s);vCats()}
+function delSvc(x){if(!confirm("Ye service type delete karni hai?"))return;DB.set("services",SVCS().filter(s=>s!==x));vCats()}
+/* ---------- saved suppliers (bulk upload) ---------- */
+function SUPPLIERS(){return DB.get("suppliers",[])}
+function saveSupplier(name,wa){name=(name||"").trim();wa=(wa||"").trim();if(!name)return;const s=SUPPLIERS(),ex=s.find(x=>x.name.toLowerCase()===name.toLowerCase());if(ex){if(wa)ex.wa=wa}else s.push({name,wa});DB.set("suppliers",s)}
+function delSupplier(name){if(!confirm(`"${name}" saved list se hatao?`))return;DB.set("suppliers",SUPPLIERS().filter(x=>x.name!==name));vVend()}
+function editSupplier(name){state.supEdit=name;vVend();setTimeout(()=>{const i=$("#supEditName");if(i){i.focus();i.select()}},40)}
+function cancelSupEdit(){state.supEdit=null;vVend()}
+function editSupRow(k){state.supRowEdit=k;vVend();setTimeout(()=>{const i=document.getElementById("supRowName")||document.getElementById("supRowWa");if(i){i.focus();i.select()}},50)}
+function cancelSupRowEdit(){state.supRowEdit=null;vVend()}
+function saveSupRowEdit(disp){const ni=document.getElementById("supRowName"),wi=document.getElementById("supRowWa");const nm=((ni&&ni.value)||"").trim(),wa=((wi&&wi.value)||"").trim();if(!nm){toast("Naam likho");return}const ol=String(disp).toLowerCase(),nl=nm.toLowerCase(),all=DB.get("sites",[]);let n=0;all.forEach(x=>{if(String(x.vendor||"").toLowerCase()===ol){n++;if(nl!==ol)x.vendor=nm;x.vendorWA=wa}});DB.set("sites",all);const od=DB.get("orders",[]);od.forEach(r=>(r.items||[]).forEach(i=>{if(String(i.vendor||"").toLowerCase()===ol){if(nl!==ol)i.vendor=nm;i.vendorWA=wa}}));DB.set("orders",od);DB.set("suppliers",SUPPLIERS().filter(x=>x.name.toLowerCase()!==ol).concat([{name:nm,wa:wa}]));state.supRowEdit=null;vVend();toast("Supplier save \u2705 ("+n+" sites)")}
+function saveSupEdit(old){const n=($("#supEditName").value||"").trim(),wa=($("#supEditWa").value||"").trim();if(!n)return toast("Naam likho");if(old&&old.toLowerCase()!==n.toLowerCase())DB.set("suppliers",SUPPLIERS().filter(x=>x.name!==old));saveSupplier(n,wa);state.supEdit=null;vVend();toast("Supplier save ✅")}
+function pickSupplier(name){const s=SUPPLIERS().find(x=>x.name===name);if($("#upVen"))$("#upVen").value=s?s.name:"";if($("#upVWA"))$("#upVWA").value=s?s.wa:""}
+function syncVenSel(){const el=$("#upVenSel");if(el)el.selectedIndex=0}
+
+function applyVen(){const vn=$("#upVen").value.trim(),wa=$("#upVWA").value.trim();if(!vn&&!wa)return toast("Pehle upar seller naam / WhatsApp likho");saveSupplier(vn,wa);const s=DB.get("sites",[]);let n=0;s.forEach(x=>{if(!x.vendor){if(vn)x.vendor=vn;if(wa)x.vendorWA=wa;n++}});DB.set("sites",s);toast(n+" sites me supplier lag gaya ✅")}
+
+function vOrders(){
+  const o=DB.get("orders",[]);let ch=false;o.forEach(x=>{if(!x.read){x.read=true;ch=true}});if(ch)DB.set("orders",o);updBell();
+  $("#app").innerHTML=`<h1>Orders</h1><p class="lead">Order aane par supplier ko WhatsApp se bhejo, live link wapas lo, phir client ko do.</p>`+(o.length?o.map(orderCard).join(""):`<div class="panel"><div class="empty">Abhi koi order nahi aaya.</div></div>`);
+}
+function orderCard(x){
+  const cost=costOf(x),g={};
+  x.items.forEach(i=>{const k=i.vendorWA||"none";(g[k]=g[k]||{n:i.vendor,w:i.vendorWA,it:[]}).it.push(i)});
+  const btns=Object.values(g).map(v=>v.w?`<a class="btn s wabtn" target="_blank" href="${wa(v.w,`Hi ${v.n||""}, new order ${x.id}:\n\n`+v.it.map((i,n)=>`${n+1}. ${i.website}\nURL: ${i.url}\nAnchor: ${i.anchor}`).join("\n\n")+"\n\nPlease publish and share the live link.")}">📩 Send to ${esc(v.n||v.w)} (${v.it.length})</a>`:`<span class="pill wa">${v.it.length} item(s) without supplier</span>`).join(" ");
+  const done=x.items.filter(i=>i.live);
+  return `<div class="panel"><div class="row" style="margin:0"><div><b class="mono">${esc(x.id)}</b> <span class="st ${x.status}">${x.status}</span><br><small class="meta">${esc(x.date)} · ${esc(x.name)} · ${esc(x.email)} · <a target="_blank" href="https://wa.me/${x.whatsapp.replace(/\D/g,"")}">${esc(x.whatsapp)}</a></small></div>
+  <div style="display:flex;gap:6px"><select style="width:auto" onchange="setStatus('${x.id}',this.value)">${["New","Progress","Completed","Cancelled"].map(t=>`<option${t===x.status?" selected":""}>${t}</option>`).join("")}</select><button class="btn r s" onclick="delOrder('${x.id}')">🗑</button></div></div>
+  <div class="mini m3"><div><b>${fmt(x.total)}</b><small>SALE (PKR)</small></div><div><b>${fmt(cost)}</b><small>SUPPLIER COST</small></div><div><b style="color:var(--acc)">${fmt(x.total-cost)}</b><small>PROFIT</small></div></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0">${btns}</div>
+  <div class="tw"><table><tr><th>Site / Supplier</th><th>Target URL</th><th>Anchor</th><th>Sale / Cost</th><th>Live link (supplier ne diya)</th></tr>${x.items.map((i,n)=>`<tr><td><b>${esc(i.website)}</b><br>${i.vendor?`<small class="meta">🤝 ${esc(i.vendor)} · ${esc(i.vendorWA)}</small>`:'<span class="pill wa">no supplier</span>'}</td><td style="word-break:break-all">${esc(i.url)}</td><td>${esc(i.anchor)}</td><td class="mono">${fmt(i.price)}<br><small class="meta">${fmt(i.cost)}</small></td><td><input value="${esc(i.live||"")}" placeholder="https://…" onchange="setLive('${x.id}',${n},this.value)"></td></tr>`).join("")}</table></div>
+  ${x.notes?`<div class="meta" style="margin-top:8px">📝 ${esc(x.notes)}</div>`:""}
+  ${done.length?`<div style="margin-top:12px"><a class="btn s wabtn" target="_blank" href="${wa(x.whatsapp,`Hi ${x.name}, your order ${x.id} is live:\n\n`+done.map(i=>`${i.website}\n${i.live}`).join("\n\n"))}">✅ Send ${done.length} live link(s) to client</a></div>`:""}</div>`;
+}
+function setLive(id,n,v){const o=DB.get("orders",[]),x=o.find(y=>y.id===id);if(x){x.items[n].live=v.trim();DB.set("orders",o);vOrders();toast("Live link save ho gaya")}}
+function vVend(){
+  const s=DB.get("sites",[]),o=DB.get("orders",[]).filter(x=>x.status!=="Cancelled"),m={},N="— No supplier —";
+  const R=(k,w)=>{const kk=String(k).toLowerCase();if(!m[kk])m[kk]={w:w||"",sites:0,orders:0,owed:0,list:[],disp:k};const r=m[kk];if(!r.w&&w)r.w=w;return r};
+  s.forEach(x=>{const r=R(x.vendor||N,x.vendorWA);r.sites++;r.list.push(x);if(!r.w)r.w=x.vendorWA||""});
+  o.forEach(x=>x.items.forEach(i=>{const r=R(i.vendor||N,i.vendorWA);r.orders++;r.owed+=+i.cost||0}));
+  const rate=k=>{const v=m[k];return `<details class="ratebox"><summary><b>${esc(v.disp)}</b> <span class="meta">— ${v.sites} sites · rate list dekhne ke liye kholo</span></summary><div class="tw"><table><tr><th>Website</th><th>Category</th><th>Price (PKR)</th><th>Price (USD)</th><th>Guest $</th><th>List $</th></tr>${v.list.map(x=>`<tr><td><b>${esc(x.website)}</b></td><td>${esc(x.category)}</td><td class="mono ratecell" data-id="${x.id}" data-k="price" title="Click karke rate edit karo">${fmt(x.price)}</td><td class="mono ratecell" data-id="${x.id}" data-k="priceUSD" title="Click karke rate edit karo">${x.priceUSD?"$"+esc(x.priceUSD):"—"}</td><td class="mono ratecell" data-id="${x.id}" data-k="guestPrice" title="Click karke rate edit karo">${x.guestPrice?"$"+esc(x.guestPrice):"—"}</td><td class="mono ratecell" data-id="${x.id}" data-k="liPrice" title="Click karke rate edit karo">${x.liPrice?"$"+esc(x.liPrice):"—"}</td></tr>`).join("")}</table></div></details>`};
+  $("#app").innerHTML=`<h1>Suppliers</h1><p class="lead">Kis supplier ki kitni sites hain aur kitna payment banta hai. Ye data sirf admin ko dikhta hai.</p>${SUPPLIERS().length?`<div class="panel" style="margin-bottom:14px"><h2>📌 Saved suppliers</h2><p class="lead">Bulk upload me ek click par chunne ke liye — ghalat ho to ✕ se hata do.</p><div class="chips">${SUPPLIERS().map(x=>state.supEdit===x.name?`<span class="chip on supedit"><input id="supEditName" value="${esc(x.name)}" style="width:120px"><input id="supEditWa" value="${esc(x.wa||"")}" placeholder="WhatsApp" style="width:110px"><button class="btn g s" onclick="saveSupEdit('${esc(x.name).replace(/'/g,"\\'")}')">Save</button><button class="btn g s" onclick="cancelSupEdit()">✕</button></span>`:`<span class="chip on" style="cursor:default">${esc(x.name)}${x.wa?` <small class="meta">${esc(x.wa)}</small>`:""} <b style="cursor:pointer;margin-left:6px" title="Edit" onclick="editSupplier('${esc(x.name).replace(/'/g,"\\'")}')">✎</b><b style="cursor:pointer;margin-left:4px" onclick="delSupplier('${esc(x.name).replace(/'/g,"\\'")}')">✕</b></span>`).join("")}</div></div>`:""}<div class="panel"><div class="tw"><table><tr><th>Supplier</th><th>WhatsApp</th><th>Sites</th><th>Ordered links</th><th>Total cost (PKR)</th></tr>${Object.entries(m).sort((a,b)=>b[1].owed-a[1].owed).map(([k,v])=>`<tr><td>${state.supRowEdit===k?`<input id="supRowName" value="${esc(v.disp)}" style="width:150px;font:inherit;padding:4px 8px">`:`<b>${esc(v.disp)}</b>`}</td><td>${state.supRowEdit===k?`<input id="supRowWa" value="${esc(v.w||"")}" placeholder="WhatsApp number" style="width:130px;font:inherit;padding:4px 8px"> <button class="btn g s" onclick="saveSupRowEdit('${esc(v.disp).replace(/'/g,"\\'")}')">Save</button> <button class="btn g s" onclick="cancelSupRowEdit()">✕</button>`:`${v.w?`<a target="_blank" href="https://wa.me/${v.w.replace(/\D/g,"")}">${esc(v.w)}</a>`:"—"}${v.disp==="— No supplier —"?"":` <b style="cursor:pointer;margin-left:6px" title="Edit karo" onclick="editSupRow('${esc(k).replace(/'/g,"\\'")}')">✎</b>`}`}</td><td class="mono">${v.sites}</td><td class="mono">${v.orders}</td><td class="mono">${fmt(v.owed)}</td></tr>`).join("")}</table></div></div>
+  <div class="panel"><h2>💰 Rate lists</h2><p class="lead">Har supplier ki websites aur unke rates — kholo, kisi bhi rate par <b>click</b> karke foran edit karo.</p><button class="btn s" onclick="pricePasteModal()" style="margin-bottom:10px">📋 Paste prices</button>${Object.keys(m).sort().map(rate).join("")}</div>`;
+}
+/* rate list inline editing */
+document.addEventListener("click",e=>{
+  const c=e.target.closest?e.target.closest(".ratecell"):null;
+  if(c&&!c.querySelector("input"))rateEdit(c.dataset.id,c.dataset.k,c);
+});
+function rateEdit(id,k,el){
+  const x=DB.get("sites",[]).find(s=>s.id===id);if(!x)return;
+  const cur=x[k];
+  el.innerHTML=`<input value="${esc(cur==null?"":cur)}" inputmode="decimal" style="width:92px;font:inherit">`;
+  const inp=el.querySelector("input");inp.focus();inp.select();let done=false;
+  const save=()=>{if(done)return;done=true;
+    const v=inp.value.replace(/[^0-9.]/g,""),all=DB.get("sites",[]),x2=all.find(s=>s.id===id);
+    if(x2){const oldP=x2.price;x2[k]=v===""?"":+v;if(k==="price")autoUSD(x2,oldP);DB.set("sites",all)}
+    vVend();toast("Rate update \u2705")};
+  inp.addEventListener("keydown",ev=>{if(ev.key==="Enter")save();if(ev.key==="Escape"){done=true;vVend()}});
+  inp.addEventListener("blur",save);
+}
+function setStatus(id,s){const o=DB.get("orders",[]),x=o.find(y=>y.id===id);if(x){x.status=s;DB.set("orders",o);vOrders()}}
+function delOrder(id){if(confirm("Order delete karna hai?")){DB.set("orders",DB.get("orders",[]).filter(o=>o.id!==id));vOrders()}}
+/* ---------- v3: settings ---------- */
+function vSet(){
+  if(!state.admin){go("market");return}
+  const s=DB.get("settings",{}),pr=DB.get("profile",{}),f=footSet();
+  const fv=(k,ph)=>esc(f[k]||"");
+  $("#app").innerHTML=`<h1>Settings</h1><p class="lead">Apni settings yahan manage karo.</p>
+  <div class="panel"><h2>👤 My Profile</h2><div class="f2"><div><label>Naam</label><input id="pName" value="${esc(pr.name||"")}" placeholder="e.g. Basit Malik"></div><div><label>Email</label><input id="pEmail" value="${esc(pr.email||"")}" placeholder="you@email.com"></div><div><label>Phone / WhatsApp</label><input id="pPhone" value="${esc(pr.phone||"")}" placeholder="923001234567"></div></div><p class="meta">Ye details orders me istemal hongi.</p></div>
+  <div class="panel">
+<h2>🔐 Admin login</h2>
+<p class="lead">Admin area ka email aur password — yahi se badlo.</p>
+<div class="f2">
+<div>
+<label>Admin email</label>
+<input id="aEmail" value="${esc(admAuth().email)}">
+</div>
+<div>
+<label>Status</label>
+<input value="✅ Signed in" disabled>
+</div>
+<div>
+<label>New password</label>
+<input id="aPass1" type="password" placeholder="Naya password (min 6)">
+</div>
+<div>
+<label>Confirm password</label>
+<input id="aPass2" type="password" placeholder="Dobara likho">
+</div>
+</div>
+<div class="row" style="margin-top:10px;justify-content:flex-start;gap:8px"><button class="btn s" onclick="admSave()">💾 Save</button><button class="btn g s" onclick="go('logout')">🚪 Logout</button></div>
+<p class="meta">Password browser me hash (SHA-256) ki surat me mehfooz hota hai — asal password kahin save nahi hota.</p>
+</div>
+  <div class="panel"><h2>🎨 Footer customize</h2><div class="f2"><div><label>Logo (emoji)</label><input id="fLogo" value="${fv("logo")}" placeholder="🧭"></div><div><label>About (2 lines)</label><input id="fAbout" value="${fv("about")}" placeholder="Apne business ka taaruf"></div><div><label>Facebook URL</label><input id="fFb" value="${fv("facebook")}" placeholder="https://facebook.com/..."></div><div><label>WhatsApp number</label><input id="fWa" value="${fv("whatsapp")}" placeholder="923001234567"></div><div><label>TikTok URL</label><input id="fTk" value="${fv("tiktok")}" placeholder="https://tiktok.com/..."></div><div><label>YouTube URL</label><input id="fYt" value="${fv("youtube")}" placeholder="https://youtube.com/..."></div><div><label>Instagram URL</label><input id="fIg" value="${fv("instagram")}" placeholder="https://instagram.com/..."></div><div><label>Website URL</label><input id="fWs" value="${fv("website")}" placeholder="https://rankvise.netlify.app/"></div><div><label>Messenger URL</label><input id="fMs" value="${fv("messenger")}" placeholder="https://m.me/..."></div></div></div>
+  <div class="panel"><h2>⚙ General</h2><div class="f2"><div><label>Your WhatsApp (orders ke liye)</label><input id="sWA" value="${esc(s.whatsapp||"")}"></div><div><label>USD rate (1 USD = ? PKR)</label><input id="sRate" type="number" value="${esc(s.rate||280)}"></div><div><label>💳 JazzCash number</label><input id="sPayJazz" value="${esc(s.payJazz||"03039982013")}" placeholder="03039982013"></div><div><label>💚 Easypaisa number</label><input id="sPayEP" value="${esc(s.payEP||"")}" placeholder="03451234567"></div><div><label>📡 Live Google Sheet (CSV link)</label><input id="sLive" value="${esc(s.liveSheet||"")}" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv"></div><div><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="sLiveOff" ${s.liveOff?"checked":""} style="width:auto"> 🚫 Live data band karo — marketplace khaali rahega</label></div></div>
+  <div class="row" style="justify-content:flex-start;margin-top:12px"><button class="btn" onclick="saveSet()">💾 Save</button><button class="btn g" onclick="backup()">⬇ Backup (JSON)</button></div><div class="row" style="justify-content:flex-start;margin-top:8px;gap:8px;flex-wrap:wrap"><button class="btn g s" onclick="testLiveLink()">🔍 Link test karo</button><button class="btn g s" onclick="refreshLiveSheet(true)">🔄 Live sheet se abhi sync karo</button><span class="meta" id="liveStat">${liveStat()}</span></div><p class="meta">📡 Live sheet ka link dalne ke baad clients ko hamesha taza data dikhega — dobara deploy ki zaroorat nahi. Supplier wale columns (naam/number/cost) sheet me mat rakho; wo sirf tumhare browser me mehfooz rahenge.</p></div>
+  <div class="panel"><h2>🌱 Fresh start</h2><p class="meta">Sample/demo sites, orders aur cart delete — naye buyer ke liye saaf copy. Settings aur profile mehfooz rahengi.</p><button class="btn r" onclick="freshStart()">🗑 Sab data saaf karo</button></div>`;
+}
+function saveSet(){
+  const s=DB.get("settings",{});
+  const oldLive=String(s.liveSheet||"").trim();
+  s.whatsapp=$("#sWA").value.trim();s.rate=+$("#sRate").value||280;const _nl=normalizeLiveURL($("#sLive").value);if(_nl&&_nl.err){toast(_nl.err);return}s.liveSheet=typeof _nl==="string"?_nl:$("#sLive").value.trim();const _lf=document.querySelector("#sLive");if(_lf&&_lf.value!==s.liveSheet)_lf.value=s.liveSheet;s.payJazz=$("#sPayJazz").value.trim();s.payEP=$("#sPayEP").value.trim();
+  const ff=$("#fLogo");if(ff)s.footer={logo:$("#fLogo").value.trim(),about:$("#fAbout").value.trim(),facebook:$("#fFb").value.trim(),whatsapp:$("#fWa").value.trim(),tiktok:$("#fTk").value.trim(),youtube:$("#fYt").value.trim(),instagram:$("#fIg").value.trim(),website:$("#fWs").value.trim(),messenger:$("#fMs").value.trim()};
+  DB.set("settings",s);
+  DB.set("profile",{name:$("#pName").value.trim(),email:$("#pEmail").value.trim(),phone:$("#pPhone").value.trim()});
+  renderFoot();toast("Settings save ho gayin ✅");
+  const _lo=document.querySelector("#sLiveOff");s.liveOff=!!(_lo&&_lo.checked);DB.set("settings",s);
+  const newLive=String(s.liveSheet||"").trim();
+  if(s.liveOff||!newLive){
+    if(!confirm("Live data band hai — marketplace me koi site nazar NAHI ayegi. Continue?"))return;
+    try{extractPrivate()}catch(_){}
+    try{DB.set("sites",[])}catch(e2){try{DB.set("sites",[])}catch(_){}}
+    try{render()}catch(_){}
+    toast("Live band — marketplace khaali hai");
+    return;
+  }
+  s.liveOff=false;DB.set("settings",s);
+  if(newLive!==oldLive)setTimeout(function(){refreshLiveSheet(true)},600);
+}
+function freshStart(){if(!confirm("Sample sites, orders aur cart DELETE ho jayenge. Settings mehfooz rahengi. Pakka?"))return;DB.set("sites",[]);DB.set("orders",[]);DB.set("cart",{});DB.set("categories",["General"]);toast("Fresh start ho gaya 🌱");go("dash")}
+
+function backup(){const l=document.createElement("a");l.href=URL.createObjectURL(new Blob([JSON.stringify({sites:DB.get("sites",[]),categories:DB.get("categories",[]),orders:DB.get("orders",[])},null,2)],{type:"application/json"}));l.download="offpage-atlas-backup.json";l.click()}
+
+/* ---------- legal pages ---------- */
+function vPrivacy(){$("#app").innerHTML=`<h1>Privacy Policy</h1><div class="panel"><p><b>OffPage Atlas</b> ("we", "our") respects your privacy. This page explains what data we collect when you use our backlink &amp; guest post marketplace.</p><h2>Data we collect</h2><p>When you place an order, we collect your name, email address, WhatsApp number, target URLs and anchor texts — only what is needed to deliver your order.</p><h2>How we use it</h2><p>Your details are used solely to process orders, communicate about delivery, and provide support. We do not sell your personal data to third parties.</p><h2>Cookies &amp; storage</h2><p>Your cart and preferences are stored locally in your own browser (localStorage). No tracking cookies are used for advertising.</p><h2>Contact</h2><p>For privacy questions, contact us via WhatsApp: <a target="_blank" href="https://wa.me/923026129000">+92 302 6129000</a>.</p></div>`}
+function vDmca(){$("#app").innerHTML=`<h1>DMCA Policy</h1><div class="panel"><p><b>OffPage Atlas</b> respects intellectual property rights. If you believe any content linked or displayed on this marketplace infringes your copyright, you may file a DMCA notice.</p><h2>How to file a notice</h2><p>Send us: (1) identification of the copyrighted work, (2) the URL of the infringing material on our site, (3) your contact details, (4) a good-faith statement, (5) your physical or electronic signature.</p><h2>Where to send</h2><p>WhatsApp: <a target="_blank" href="https://wa.me/923026129000">+92 302 6129000</a> or via our <a onclick="go('contact')" style="cursor:pointer">Contact page</a>.</p><p>Valid notices are reviewed promptly and infringing listings are removed.</p></div>`}
+function vTerms(){$("#app").innerHTML=`<h1>Terms &amp; Conditions</h1><div class="panel"><h2>Services</h2><p>OffPage Atlas is a marketplace for guest posts and backlinks. Listings show estimated metrics (DA, DR, traffic, spam score) collected from third-party tools — we do not guarantee exact values or ranking improvements.</p><h2>Orders &amp; payment</h2><p>Guest post orders are confirmed after payment. Backlink packages are custom-quoted — contact us on WhatsApp for pricing.</p><h2>Turnaround</h2><p>Each listing shows an estimated TAT (turnaround time). Delays by publishers are communicated proactively.</p><h2>Refunds</h2><p>${lang==="ur"?"Agar koi link agreed time me deliver na ho to WhatsApp ya Contact page par rabta karein — munasib hal nikala jayega.":"If any link is not delivered within the agreed time, contact us on WhatsApp or via the Contact page — we will work out a fair solution."}</p><h2>Contact</h2><p>WhatsApp: <a target="_blank" href="https://wa.me/923026129000">+92 302 6129000</a>.</p></div>`}
+function vContact(){$("#app").innerHTML=`<h1>Contact Us</h1><div class="panel"><p>${lang==="ur"?"Backlinks ya guest posts ke liye rabta karein — hum jaldi jawab dete hain.":"Contact us for backlinks or guest posts — we reply quickly."}</p><div class="row" style="justify-content:flex-start"><a class="btn s wabtn" target="_blank" href="https://wa.me/923026129000?text=${encodeURIComponent(lang==="ur"?"Hi, mujhe backlinks ka rate chahiye.":"Hi, I need backlink rates.")}" style="text-decoration:none">📩 WhatsApp: +92 302 6129000</a><a class="btn g s" target="_blank" href="https://web.facebook.com/abdul.basit.murass/" style="text-decoration:none">📘 Facebook</a><a class="btn g s" target="_blank" href="https://m.me/abdul.basit.murass/" style="text-decoration:none">💬 Messenger</a></div></div>`}
+
+/* ---------- icons + translation ---------- */
+const P={compass:"M12 21a9 9 0 100-18 9 9 0 000 18zM15.5 8.5l-2 5-5 2 2-5z",store:"M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9a3 3 0 006 0 3 3 0 006 0 3 3 0 006 0M9.5 20v-5h5v5",cart:"M3 4h2.2l2.3 11h10.2l2.3-8H6M9.5 20h.01M17.5 20h.01",key:"M11 15a4 4 0 11-8 0 4 4 0 018 0zM10 12.5l9-9M16 6.5l3 3",dash:"M4 4h7v9H4zM13 4h7v5h-7zM13 11h7v9h-7zM4 15h7v5H4z",package:"M21 8l-9-5-9 5v8l9 5 9-5zM3 8l9 5 9-5M12 13v8",globe:"M12 21a9 9 0 100-18 9 9 0 000 18zM3 12h18M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9s1-6.5 3.5-9z",users:"M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2M10 11a4 4 0 100-8 4 4 0 000 8zM21 21v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8",plus:"M12 5v14M5 12h14",upload:"M12 16V4M7 9l5-5 5 5M4 20h16",tag:"M20.6 13.4l-7.2 7.2a2 2 0 01-2.8 0L3 13V3h10l7.6 7.6a2 2 0 010 2.8zM7.5 7.5h.01",sliders:"M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1M13 4v4M9 10v4M17 16v4",contrast:"M12 21a9 9 0 100-18 9 9 0 000 18zM12 3v18",search:"M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.3-4.3",download:"M12 4v12M7 11l5 5 5-5M4 20h16",reset:"M3 12a9 9 0 109-9 9.7 9.7 0 00-6.7 3M3 4v5h5",send:"M22 2L11 13M22 2l-7 20-4-9-9-4z",check:"M5 12.5l4.5 4.5L19 7",save:"M5 3h11l3 3v15H5zM8 3v6h8V3M8 21v-7h8v7",trash:"M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v5M14 11v5",edit:"M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z",lock:"M6 11h12v10H6zM8 11V7a4 4 0 018 0v4",map:"M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11zM12 12a2 2 0 100-4 2 2 0 000 4z",trend:"M3 17l6-6 4 4 8-8M15 7h6v6",dollar:"M12 2v20M17 6H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6",bell:"M6 8a6 6 0 0112 0c0 7 3 9 3 9H3s3-2 3-9M10 21a2 2 0 004 0",link:"M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1",clock:"M12 21a9 9 0 100-18 9 9 0 000 18zM12 7v5l3 2",file:"M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9zM14 3v6h6M8 13h8M8 17h5",star:"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z",x:"M6 6l12 12M18 6L6 18",logout:"M9 21H5V3h4M16 17l5-5-5-5M21 12H9",back:"M9 14L4 9l5-5M4 9h10a6 6 0 010 12h-3"};
+const I=n=>`<svg class="i" viewBox="0 0 24 24"><path d="${P[n]}"/></svg>`;
+const EM={"🧭":"compass","🏪":"store","🛒":"cart","🔑":"key","📊":"dash","📦":"package","🌐":"globe","🌍":"globe","🤝":"users","＋":"plus","📤":"upload","🏷":"tag","⚙":"sliders","🌗":"contrast","🔍":"search","↺":"reset","⬇":"download","📥":"download","📩":"send","✅":"check","✔":"check","✓":"check","💾":"save","🗑":"trash","✏":"edit","🔒":"lock","🗺":"map","📈":"trend","💰":"dollar","🔔":"bell","🔗":"link","⏱":"clock","📝":"file","🎰":"star","✕":"x","🚪":"logout","↩":"back"};
+const RXS="("+Object.keys(EM).join("|")+")\\uFE0F?";
+const TR={"Marketplace":"مارکیٹ پلیس","Cart":"کارٹ","Admin login":"ایڈمن لاگ اِن","SHOP":"خریداری","Dark mode":"ڈارک موڈ","Light mode":"لائٹ موڈ","Search sites, niche, country… (Enter)":"سائٹ، نیچ یا ملک تلاش کریں…",
+"Choose sites by niche, country and quality (DA / DR / Spam).":"اپنی نیچ، ملک اور کوالٹی (DA / DR / اسپیم) کے مطابق ویب سائٹس منتخب کریں۔",
+"All sites":"تمام سائٹس","Guest posts + backlinks":"گیسٹ پوسٹس اور بیک لنکس","Guest Posts":"گیسٹ پوسٹس","Article + link on a real website":"حقیقی ویب سائٹ پر آرٹیکل اور لنک","Backlinks":"بیک لنکس","Forum, image, profile & directory links":"فورم، امیج، پروفائل اور ڈائریکٹری لنکس",
+"Search by site name, niche, keyword…":"سائٹ کے نام، نیچ یا کی ورڈ سے تلاش کریں…","Country":"ملک","Category":"کیٹیگری","Min DA":"کم از کم DA","Min DR":"کم از کم DR","Max spam score":"زیادہ سے زیادہ اسپیم اسکور","Min traffic":"کم از کم ٹریفک","Link type":"لنک کی قسم","Indexing":"انڈیکسنگ","Sort by":"ترتیب","All":"سب",
+"e.g. USA, UK, Japan":"مثلاً USA، UK، Japan","e.g. Automotive":"مثلاً Automotive","e.g. 30":"مثلاً 30","e.g. 40":"مثلاً 40","e.g. 3":"مثلاً 3","e.g. 10k":"مثلاً 10k",
+"Dofollow":"ڈو فالو","Nofollow":"نو فالو","Indexable":"انڈیکس ایبل","Non Indexable":"نان انڈیکس ایبل","Instant":"فوری","Guest Post":"گیسٹ پوسٹ","Backlink":"بیک لنک",
+"DR: high → low":"DR: زیادہ سے کم","DA: high → low":"DA: زیادہ سے کم","Spam: low → high":"اسپیم: کم سے زیادہ","Traffic: high → low":"ٹریفک: زیادہ سے کم","Price: low → high":"قیمت: کم سے زیادہ","Price: high → low":"قیمت: زیادہ سے کم",
+"Filter by category":"کیٹیگری کے مطابق فلٹر","Filter by country":"ملک کے مطابق فلٹر","Reset filters":"فلٹر ری سیٹ","Export CSV":"CSV ڈاؤن لوڈ","Add all shown":"سب کارٹ میں ڈالیں","Add to cart":"کارٹ میں ڈالیں","In cart":"کارٹ میں موجود","View sample ↗":"نمونہ دیکھیں ↗","Casino/CBD/Crypto:":"کیسینو/CBD/کرپٹو:",
+"No exact match — try relaxing the filters.":"کوئی عین مطابق سائٹ نہیں ملی — فلٹر ہلکے کریں۔","Related sites you may also like":"ملتی جلتی سائٹس جو آپ کو پسند آ سکتی ہیں","Slightly outside your filters — add these to your cart too.":"آپ کے فلٹر سے تھوڑی مختلف — انہیں بھی کارٹ میں شامل کریں۔",
+"Your cart":"آپ کا کارٹ","Enter the Target URL and Anchor text for each site, then place your order.":"ہر سائٹ کے لیے ٹارگٹ URL اور اینکر ٹیکسٹ لکھیں، پھر آرڈر کریں۔","Your cart is empty — add sites from the Marketplace.":"آپ کا کارٹ خالی ہے — مارکیٹ پلیس سے سائٹس شامل کریں۔","Target URL *":"ٹارگٹ URL *","Anchor text *":"اینکر ٹیکسٹ *","e.g. best car accessories":"مثلاً best car accessories","Your details":"آپ کی تفصیل","Name *":"نام *","Email *":"ای میل *","WhatsApp *":"واٹس ایپ *","Notes":"نوٹس","Total:":"کل:","Place order":"آرڈر کریں",
+"Order placed!":"آرڈر ہو گیا!","Order ID:":"آرڈر آئی ڈی:","— we will contact you soon.":"— ہم جلد رابطہ کریں گے۔","Confirm on WhatsApp":"واٹس ایپ پر تصدیق کریں","Added to cart":"کارٹ میں شامل ہو گیا","Name, email and WhatsApp are required":"نام، ای میل اور واٹس ایپ ضروری ہیں","Enter a Target URL and Anchor text for every site":"ہر سائٹ کا ٹارگٹ URL اور اینکر ٹیکسٹ لکھیں"};
+function run(){
+  const app=$("#app"),tl=lang==="ur",view=state.v==="market"||state.v==="cart",skip=n=>/^(SCRIPT|STYLE|TITLE)$/.test(n),RXt=new RegExp(RXS);
+  const txt=()=>{const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),a=[];while(w.nextNode())a.push(w.currentNode);return a};
+  txt().forEach(n=>{const p=n.parentNode.nodeName;if(skip(p)||p==="OPTION"||p==="TEXTAREA"||!RXt.test(n.data))return;
+    const f=document.createDocumentFragment();
+    n.data.split(new RegExp(RXS)).forEach((x,i)=>{if(i%2){const h=document.createElement("span");h.innerHTML=I(EM[x]);f.appendChild(h.firstChild)}else if(x)f.appendChild(document.createTextNode(x))});
+    n.parentNode.replaceChild(f,n)});
+  txt().forEach(n=>{if(skip(n.parentNode.nodeName))return;if(n.__o===undefined)n.__o=n.data;
+    const o=n.__o,k=o.trim(),w=tl&&TR[k]&&(view||!app.contains(n))?o.replace(k,TR[k]):o;if(n.data!==w)n.data=w});
+  document.querySelectorAll("[placeholder]").forEach(e=>{if(e.__ph===undefined)e.__ph=e.getAttribute("placeholder");const k=e.__ph;e.setAttribute("placeholder",tl&&TR[k]&&(view||!app.contains(e))?TR[k]:k)});
+}
+const mo=new MutationObserver(()=>{mo.disconnect();try{run()}finally{mo.observe(document.body,{childList:true,subtree:true})}});
+mo.observe(document.body,{childList:true,subtree:true});
+function syncSeg(){document.querySelectorAll("#langsg button").forEach(b=>b.classList.toggle("on",b.dataset.l===lang));document.querySelectorAll("#cursg button").forEach(b=>b.classList.toggle("on",b.dataset.c===cur));document.documentElement.lang=lang;run()}
+document.querySelectorAll("#langsg button").forEach(b=>b.onclick=()=>{lang=b.dataset.l;DB.set("lang",lang);render();syncSeg()});
+document.querySelectorAll("#cursg button").forEach(b=>b.onclick=()=>{cur=b.dataset.c;DB.set("cur",cur);render();syncSeg()});
+(async()=>{
+try{
+  await IDB.ready;
+  const _is=await IDB.get("sites");
+  if(_is&&_is.length){MEM_SITES=_is;MEM_SITES_LOADED=true}
+  else{
+    try{
+      const _ls=JSON.parse(localStorage.getItem("lb_sites"));
+      if(_ls&&_ls.length){MEM_SITES=_ls;MEM_SITES_LOADED=true;try{IDB.set("sites",_ls)}catch(_){}try{localStorage.removeItem("lb_sites")}catch(_){}}
+    }catch(_){}
+  }
+}catch(_){}
+saveCart();try{localStorage.removeItem("oa_sess")}catch(e){}const mh=location.hash==="#murass";if(mh)location.hash="";if(trySess())unlockAdmin();else lockAdmin();syncTrashN();if(mh){if(state.admin)go("dash");else go("login")}else go(state.v);if(!localStorage.getItem("lb_privmig")){try{extractPrivate()}catch(_){}localStorage.setItem("lb_privmig","1")}applyPrivate();if(liveURL())refreshLiveSheet(false);syncSeg();window.addEventListener("hashchange",()=>{if(location.hash==="#murass"){location.hash="";if(trySess()){unlockAdmin();go("dash")}else go("login")}});window.addEventListener("scroll",()=>{const t=$("#topBtn");if(t)t.classList.toggle("show",window.scrollY>600)},{passive:true});$("#topBtn").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});})();
+</script>
+</body>
+</html>
