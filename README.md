@@ -3,7 +3,7 @@
 A single-file, client-side marketplace web app for selling guest posts and backlinks.
 Live-synced from the owner's Google Sheet — no backend, no database, no rebuild needed for data updates.
 
-**Current version:** v3.34
+**Current version:** v3.35
 **Live site:** https://offpagemarketplace.netlify.app/ / https://offpagemarketplace.vercel.app/
 
 ---
@@ -49,7 +49,7 @@ Live-synced from the owner's Google Sheet — no backend, no database, no rebuil
 Single `index.html` — drag & drop the ZIP contents onto Netlify (or any static host).
 
 ```
-offpage-atlas-v3.32-netlify.zip
+offpage-atlas-v3.35-netlify.zip
 └── index.html
 ```
 
@@ -98,6 +98,9 @@ app only (they stay in your browser).
 
 | Ver | Notes |
 |---|---|
+| v3.34 | IndexedDB storage (GBs) — sites bypass localStorage 5MB limit; auto-migration of old data |
+| v3.35 | New live-sheet link baked as default; 1,082 phantom baked sites removed; old dead link auto-migrates; "Live data band karo" admin switch (empty marketplace when off); paste new link in Settings → auto-sync keeps it updating |
+| v3.33 | Smart compaction — strips empty fields before save (7.3MB → 3.9MB); quota fallback |
 | v3.32 | Professional polish: card hover lift, gradient buttons, focus rings, smooth animations, custom scrollbar, shimmer loading, `content-visibility` fast rendering |
 | v3.31 | Removed pre-live restore; smart link normalizer + test button; `normWeb` supplier-safe sync |
 | v3.30 | HamaraMultan-style footer (uppercase headings, brand block, bordered social icons) |
@@ -112,3 +115,4 @@ app only (they stay in your browser).
 - Baked-in seed data lets first-time visitors see listings instantly; live sync replaces it.
 - If a deploy shows stale data, check the footer version badge and hard-refresh.
 - Changing prices in bulk: Sheet editor → bulk price paste, or update the Google Sheet directly.
+- Storage: site listings live in IndexedDB (GBs); settings stay in localStorage.
